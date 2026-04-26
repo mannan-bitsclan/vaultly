@@ -1,0 +1,38 @@
+export const FEATURES = [
+  {
+    num: "01",
+    title: "Fortress Card",
+    tagline: "One card. Locked to all your subscriptions.",
+    desc: "Your Fortress Card is your single primary card for every confirmed subscription — Netflix, Spotify, Adobe, all of them. Each time a merchant charges it, they're added to your personal approved list. Any merchant not on that list attempting a charge? Blocked instantly. One card, total control.",
+    stat: "100%",
+    statLabel: "Unauthorized charges blocked",
+    accent: "#4949f2",
+  },
+  {
+    num: "02",
+    title: "Trial Shield",
+    tagline: "Sign up. Never get charged.",
+    desc: "A card with a $1.00 hard ceiling. It clears the free trial verification gate, then permanently bars renewal charges. The trial is free — exactly as advertised.",
+    stat: "$0",
+    statLabel: "Surprise renewal fees. Guaranteed.",
+    accent: "#2D6A4F",
+  },
+  {
+    num: "03",
+    title: "Social Top-Up",
+    tagline: "The group pays you. Not the other way.",
+    desc: "Share a payment link via WhatsApp or iMessage. Friends settle their share directly into the card's balance. You don't front a single dollar. No chasing. No awkward follow-ups.",
+    stat: "4×",
+    statLabel: "Faster group settlement vs manual",
+    accent: "#C0392B",
+  },
+  {
+    num: "04",
+    title: "Kill Switch",
+    tagline: "Cancel without calling anyone.",
+    desc: "One tap voids the card entirely. The merchant loses billing access immediately. No hold music, no retention scripts, no having to prove you want to cancel. You're just done.",
+    stat: "1",
+    statLabel: "Tap to stop any subscription forever",
+    accent: "#6d28d9",
+  },
+];
