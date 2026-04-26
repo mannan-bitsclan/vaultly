@@ -8,8 +8,8 @@ export function Footer() {
   return (
     <footer
       style={{
-        background: "var(--black)",
-        padding: isMobile ? "32px 5%" : "44px 5%",
+        background: "#ffffff",
+        padding: isMobile ? "32px 5%" : "20px 5%",
         borderTop: "1px solid rgba(73, 73, 242, 0.1)",
       }}
     >
@@ -25,7 +25,7 @@ export function Footer() {
           flexWrap: "wrap",
         }}
       >
-        <Logo dark />
+        <Logo />
         <div
           style={{
             display: "flex",
