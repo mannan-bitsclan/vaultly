@@ -1,46 +1,7 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import logoImg from "../assets/logo.png";
-
-function useInView(threshold = 0.1) {
-  const ref = useRef(null);
-  const [vis, setVis] = useState(false);
-  useEffect(() => {
-    const ob = new IntersectionObserver(([e]) => { if (e.isIntersecting) setVis(true); }, { threshold });
-    if (ref.current) ob.observe(ref.current);
-    return () => ob.disconnect();
-  }, []);
-  return [ref, vis];
-}
-
-function useWindowWidth() {
-  const [w, setW] = useState(typeof window !== "undefined" ? window.innerWidth : 1200);
-  useEffect(() => {
-    const h = () => setW(window.innerWidth);
-    window.addEventListener("resize", h);
-    return () => window.removeEventListener("resize", h);
-  }, []);
-  return w;
-}
-
-function Reveal({ children, delay = 0, style = {} }) {
-  const [ref, vis] = useInView();
-  return (
-    <div ref={ref} style={{ opacity: vis ? 1 : 0, transform: vis ? "translateY(0)" : "translateY(22px)", transition: `opacity 0.75s cubic-bezier(.16,1,.3,1) ${delay}s, transform 0.75s cubic-bezier(.16,1,.3,1) ${delay}s`, ...style }}>{children}</div>
-  );
-}
-
-function Logo({ dark = false }) {
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-      <img src={logoImg} alt="Vaultly" style={{ width: 48, height: 48, borderRadius: 8 }} />
-      <span style={{ fontFamily: "'Playfair Display',serif", fontSize: 28, fontWeight: 700, letterSpacing: -0.5, color: dark ? "#f5f0e8" : "#1a150a" }}>Vaultly</span>
-    </div>
-  );
-}
-
-const hFont = "'Zodiak',serif";
-const hWeight = 700;
+import { Logo, Reveal } from "../components/common";
+import { useResponsive } from "../hooks";
 
 const POLICY_SECTIONS = [
   {
@@ -94,60 +55,375 @@ const POLICY_SECTIONS = [
 ];
 
 export default function PrivacyPolicy() {
-  const w = useWindowWidth();
-  const isMobile = w < 640;
+  const { isMobile, isTablet } = useResponsive();
 
-  useEffect(() => { window.scrollTo(0, 0); }, []);
-
-  const css = `
-    @import url('https://api.fontshare.com/v2/css?f[]=zodiak@400,500,600,700&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap');
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body { background: #f5f0e8; color: #1a150a; font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
-    ::-webkit-scrollbar { width: 3px; }
-    ::-webkit-scrollbar-track { background: #f5f0e8; }
-    ::-webkit-scrollbar-thumb { background: #C9A84C60; border-radius: 2px; }
-    a { text-decoration: none; color: inherit; }
-  `;
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
-    <div style={{ background: "#f5f0e8", minHeight: "100vh" }}>
-      <style>{css}</style>
-
-      {/* Nav */}
-      <nav style={{ padding: isMobile ? "14px 5%" : "16px 5%", display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid #e8e0d0" }}>
-        <Link to="/"><Logo /></Link>
-        <Link to="/" style={{ fontSize: 14, fontWeight: 500, color: "#5a4f3f", transition: "color 0.2s" }}>← Back to Home</Link>
+    <div
+      style={{
+        background: "linear-gradient(180deg, var(--gray-50) 0%, var(--white) 30%, var(--white) 100%)",
+        minHeight: "100vh",
+      }}
+    >
+      {/* Navigation */}
+      <nav
+        style={{
+          padding: isMobile ? "12px 5%" : "16px 5%",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          background: "rgba(255, 255, 255, 0.9)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          borderBottom: "1px solid var(--gray-200)",
+          position: "sticky",
+          top: 0,
+          zIndex: 100,
+        }}
+      >
+        <Link to="/">
+          <Logo compact={isMobile} />
+        </Link>
+        <Link
+          to="/"
+          style={{
+            fontSize: isMobile ? 13 : 14,
+            fontWeight: 500,
+            color: "var(--gray-600)",
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            padding: "8px 16px",
+            borderRadius: 8,
+            background: "var(--gray-100)",
+            transition: "all 0.2s ease",
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.background = "var(--gray-200)";
+            e.currentTarget.style.color = "var(--gray-900)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.background = "var(--gray-100)";
+            e.currentTarget.style.color = "var(--gray-600)";
+          }}
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <line x1="19" y1="12" x2="5" y2="12" />
+            <polyline points="12 19 5 12 12 5" />
+          </svg>
+          Back to Home
+        </Link>
       </nav>
 
-      {/* Content */}
-      <section style={{ padding: isMobile ? "64px 5%" : "100px 5%" }}>
-        <div style={{ maxWidth: 800, margin: "0 auto" }}>
-          <Reveal>
-            <p style={{ fontSize: 11, letterSpacing: 3, textTransform: "uppercase", color: "#C9A84C", fontWeight: 600, marginBottom: 10 }}>Legal</p>
-            <h1 style={{ fontFamily: hFont, fontSize: isMobile ? "1.8rem" : "clamp(2rem,4vw,3rem)", fontWeight: hWeight, letterSpacing: -1.5, marginBottom: 14 }}>
-              Privacy <span style={{ color: "#C9A84C" }}>Policy</span>
-            </h1>
-            <p style={{ color: "#8a7a65", fontSize: 13, marginBottom: isMobile ? 32 : 48 }}>Last updated: April 2026 · Pre-launch version</p>
-          </Reveal>
+      {/* Hero Section */}
+      <section
+        style={{
+          padding: isMobile ? "48px 5% 32px" : isTablet ? "64px 5% 40px" : "80px 5% 48px",
+          textAlign: "center",
+          position: "relative",
+        }}
+      >
+        {/* Background gradient orb */}
+        <div
+          style={{
+            position: "absolute",
+            top: "0%",
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: isMobile ? 300 : 500,
+            height: isMobile ? 200 : 300,
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(73, 73, 242, 0.06) 0%, transparent 60%)",
+            filter: "blur(60px)",
+            pointerEvents: "none",
+          }}
+        />
 
+        <Reveal>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              background: "var(--white)",
+              border: "1px solid var(--gray-200)",
+              borderRadius: 100,
+              padding: "8px 16px",
+              marginBottom: 20,
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.04)",
+            }}
+          >
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--primary)"
+              strokeWidth="2"
+            >
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+            <span
+              style={{
+                fontSize: 13,
+                fontWeight: 600,
+                color: "var(--gray-700)",
+              }}
+            >
+              Legal
+            </span>
+          </div>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <h1
+            style={{
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: isMobile ? "2rem" : isTablet ? "2.5rem" : "3rem",
+              fontWeight: 800,
+              letterSpacing: -1.5,
+              color: "var(--gray-900)",
+              marginBottom: 16,
+              lineHeight: 1.1,
+            }}
+          >
+            Privacy{" "}
+            <span
+              style={{
+                background: "linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              Policy
+            </span>
+          </h1>
+        </Reveal>
+
+        <Reveal delay={0.2}>
+          <p
+            style={{
+              color: "var(--gray-500)",
+              fontSize: isMobile ? 13 : 14,
+              fontWeight: 500,
+            }}
+          >
+            Last updated: April 2026 · Pre-launch version
+          </p>
+        </Reveal>
+      </section>
+
+      {/* Content */}
+      <section
+        style={{
+          padding: isMobile ? "0 5% 64px" : isTablet ? "0 5% 80px" : "0 5% 100px",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 800,
+            margin: "0 auto",
+            background: "var(--white)",
+            borderRadius: 24,
+            border: "1px solid var(--gray-200)",
+            padding: isMobile ? "32px 24px" : isTablet ? "40px 36px" : "48px 56px",
+            boxShadow: "0 4px 40px rgba(0, 0, 0, 0.04)",
+          }}
+        >
           {POLICY_SECTIONS.map((item, i) => (
-            <Reveal key={i} delay={i * 0.04}>
-              <div style={{ marginBottom: isMobile ? 24 : 32 }}>
-                <h3 style={{ fontFamily: hFont, fontSize: isMobile ? 16 : 18, fontWeight: hWeight, color: "#1a150a", marginBottom: 8, letterSpacing: -0.5 }}>{item.title}</h3>
-                <p style={{ color: "#5a4f3f", fontSize: isMobile ? 13 : 14, lineHeight: 1.8 }}>{item.body}</p>
+            <Reveal key={i} delay={i * 0.03}>
+              <div
+                style={{
+                  marginBottom: i === POLICY_SECTIONS.length - 1 ? 0 : isMobile ? 28 : 36,
+                  paddingBottom: i === POLICY_SECTIONS.length - 1 ? 0 : isMobile ? 28 : 36,
+                  borderBottom:
+                    i === POLICY_SECTIONS.length - 1 ? "none" : "1px solid var(--gray-100)",
+                }}
+              >
+                <h3
+                  style={{
+                    fontFamily: "'Poppins', sans-serif",
+                    fontSize: isMobile ? 16 : 18,
+                    fontWeight: 700,
+                    color: "var(--gray-900)",
+                    marginBottom: 12,
+                    letterSpacing: -0.3,
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 10,
+                  }}
+                >
+                  <span
+                    style={{
+                      width: 6,
+                      height: 6,
+                      borderRadius: "50%",
+                      background: "var(--primary)",
+                      flexShrink: 0,
+                    }}
+                  />
+                  {item.title}
+                </h3>
+                <p
+                  style={{
+                    color: "var(--gray-600)",
+                    fontSize: isMobile ? 14 : 15,
+                    lineHeight: 1.8,
+                    fontFamily: "'Inter', sans-serif",
+                    paddingLeft: 16,
+                  }}
+                >
+                  {item.body}
+                </p>
               </div>
             </Reveal>
           ))}
         </div>
+
+        {/* Contact Card */}
+        <Reveal delay={0.4}>
+          <div
+            style={{
+              maxWidth: 800,
+              margin: "40px auto 0",
+              background: "linear-gradient(135deg, var(--primary) 0%, #6366f1 100%)",
+              borderRadius: 20,
+              padding: isMobile ? "28px 24px" : "36px 48px",
+              display: "flex",
+              flexDirection: isMobile ? "column" : "row",
+              alignItems: isMobile ? "flex-start" : "center",
+              justifyContent: "space-between",
+              gap: 20,
+            }}
+          >
+            <div>
+              <h4
+                style={{
+                  fontFamily: "'Poppins', sans-serif",
+                  fontSize: isMobile ? 18 : 20,
+                  fontWeight: 700,
+                  color: "var(--white)",
+                  marginBottom: 6,
+                }}
+              >
+                Have questions?
+              </h4>
+              <p
+                style={{
+                  color: "rgba(255, 255, 255, 0.8)",
+                  fontSize: 14,
+                }}
+              >
+                We're here to help. Reach out anytime.
+              </p>
+            </div>
+            <a
+              href="mailto:privacy@vaultly.io"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 8,
+                background: "var(--white)",
+                color: "var(--primary)",
+                padding: "14px 24px",
+                borderRadius: 12,
+                fontSize: 14,
+                fontWeight: 600,
+                transition: "all 0.2s ease",
+                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow = "0 8px 30px rgba(0, 0, 0, 0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 20px rgba(0, 0, 0, 0.15)";
+              }}
+            >
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              >
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              privacy@vaultly.io
+            </a>
+          </div>
+        </Reveal>
       </section>
 
       {/* Footer */}
-      <footer style={{ background: "#120e07", padding: isMobile ? "32px 5%" : "44px 5%", borderTop: "1px solid #2d2415" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: isMobile ? "column" : "row", justifyContent: "space-between", alignItems: isMobile ? "flex-start" : "center", gap: isMobile ? 18 : 20, flexWrap: "wrap" }}>
+      <footer
+        style={{
+          background: "var(--gray-900)",
+          padding: isMobile ? "32px 5%" : "48px 5%",
+          borderTop: "1px solid var(--gray-800)",
+        }}
+      >
+        <div
+          style={{
+            maxWidth: 1200,
+            margin: "0 auto",
+            display: "flex",
+            flexDirection: isMobile ? "column" : "row",
+            justifyContent: "space-between",
+            alignItems: isMobile ? "flex-start" : "center",
+            gap: isMobile ? 20 : 24,
+          }}
+        >
           <Logo dark />
-          <p style={{ color: "#3a3025", fontSize: 11 }}>© 2026 Vaultly Inc. · Built on licensed payment infrastructure</p>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: isMobile ? "column" : "row",
+              alignItems: isMobile ? "flex-start" : "center",
+              gap: isMobile ? 12 : 24,
+            }}
+          >
+            <Link
+              to="/"
+              style={{
+                fontSize: 13,
+                color: "var(--gray-400)",
+                transition: "color 0.2s",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--white)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--gray-400)")}
+            >
+              Home
+            </Link>
+            <span
+              style={{
+                width: 4,
+                height: 4,
+                borderRadius: "50%",
+                background: "var(--gray-700)",
+                display: isMobile ? "none" : "block",
+              }}
+            />
+            <p style={{ color: "var(--gray-500)", fontSize: 13 }}>
+              © 2026 Vaultly Inc. · Built on licensed payment infrastructure
+            </p>
+          </div>
         </div>
       </footer>
     </div>

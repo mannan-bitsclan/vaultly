@@ -87,7 +87,7 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
   const [done, setDone] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const { isMobile, isTablet, isDesktop } = useResponsive();
+  const { isMobile, isTablet, isLargeDesktop, isSmallDesktop, width } = useResponsive();
 
   useEffect(() => {
     setMounted(true);
@@ -122,7 +122,7 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
       id="section-hero"
       style={{
         minHeight: "100svh",
-        padding: isMobile ? "140px 5% 80px" : isTablet ? "160px 5% 100px" : "140px 5% 120px",
+        padding: isMobile ? "120px 4% 60px" : isTablet ? "140px 6% 80px" : isSmallDesktop ? "120px 8% 80px" : "140px 5% 120px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -160,16 +160,16 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
         }}
       />
 
-      {/* Floating testimonial cards & Debit Cards - Desktop only */}
-      {isDesktop && (
+      {/* Floating testimonial cards & Debit Cards - Large Desktop only (1280px+) */}
+      {isLargeDesktop && (
         <>
           {/* Left side - Debit Card */}
           <div
             style={{
               position: "absolute",
               top: "32%",
-              left: "3%",
-              transform: "rotate(-8deg)",
+              left: width >= 1440 ? "3%" : "1%",
+              transform: `rotate(-8deg) scale(${width >= 1440 ? 1 : 0.85})`,
               opacity: mounted ? 1 : 0,
               transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s",
               animation: mounted ? "cardFloat1 8s ease-in-out infinite" : "none",
@@ -184,8 +184,8 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
             style={{
               position: "absolute",
               top: "15%",
-              right: "2%",
-              transform: "rotate(6deg)",
+              right: width >= 1440 ? "2%" : "0%",
+              transform: `rotate(6deg) scale(${width >= 1440 ? 1 : 0.85})`,
               opacity: mounted ? 1 : 0,
               transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 1s",
               animation: mounted ? "cardFloat2 9s ease-in-out infinite 0.5s" : "none",
@@ -199,8 +199,8 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
             style={{
               position: "absolute",
               top: "52%",
-              right: "8%",
-              transform: "rotate(-4deg)",
+              right: width >= 1440 ? "8%" : "4%",
+              transform: `rotate(-4deg) scale(${width >= 1440 ? 1 : 0.85})`,
               opacity: mounted ? 1 : 0,
               transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 1.2s",
               animation: mounted ? "cardFloat3 7s ease-in-out infinite 1s" : "none",
@@ -215,9 +215,10 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
             delay={1.2}
             style={{
               top: "12%",
-              left: "6%",
+              left: width >= 1440 ? "6%" : "2%",
               animation: "float 6s ease-in-out infinite",
               zIndex: 3,
+              transform: width >= 1440 ? "scale(1)" : "scale(0.9)",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -253,9 +254,10 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
             delay={1.5}
             style={{
               bottom: "18%",
-              left: "4%",
+              left: width >= 1440 ? "4%" : "1%",
               animation: "float 7s ease-in-out infinite 1s",
               zIndex: 3,
+              transform: width >= 1440 ? "scale(1)" : "scale(0.9)",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
@@ -285,9 +287,10 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
             delay={1.8}
             style={{
               bottom: "12%",
-              right: "5%",
+              right: width >= 1440 ? "5%" : "2%",
               animation: "float 6s ease-in-out infinite 2s",
               zIndex: 3,
+              transform: width >= 1440 ? "scale(1)" : "scale(0.9)",
             }}
           >
             <div style={{ textAlign: "center" }}>
@@ -302,9 +305,10 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
             delay={1.4}
             style={{
               bottom: "28%",
-              left: "10%",
+              left: width >= 1440 ? "10%" : "5%",
               animation: "float 7s ease-in-out infinite 0.8s",
               zIndex: 3,
+              transform: width >= 1440 ? "scale(1)" : "scale(0.9)",
             }}
           >
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -316,17 +320,53 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
         </>
       )}
 
-      {/* Tablet - Single card */}
-      {isTablet && !isMobile && (
+      {/* Small Desktop (1024-1280px) - Show only one card on each side */}
+      {isSmallDesktop && (
+        <>
+          <div
+            style={{
+              position: "absolute",
+              top: "35%",
+              left: "1%",
+              transform: "rotate(-6deg) scale(0.75)",
+              opacity: mounted ? 0.9 : 0,
+              transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 0.8s",
+              animation: mounted ? "cardFloat1 8s ease-in-out infinite" : "none",
+              zIndex: 1,
+            }}
+          >
+            <CardVisual type="shield" />
+          </div>
+
+          <div
+            style={{
+              position: "absolute",
+              top: "30%",
+              right: "0%",
+              transform: "rotate(6deg) scale(0.75)",
+              opacity: mounted ? 0.9 : 0,
+              transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 1s",
+              animation: mounted ? "cardFloat2 9s ease-in-out infinite 0.5s" : "none",
+              zIndex: 1,
+            }}
+          >
+            <CardVisual type="fortress" />
+          </div>
+        </>
+      )}
+
+      {/* Tablet - Single card only on larger tablets (768px+) */}
+      {isTablet && !isMobile && width >= 768 && (
         <div
           style={{
             position: "absolute",
             top: "50%",
-            right: "2%",
-            transform: "translateY(-50%) rotate(6deg)",
-            opacity: mounted ? 0.9 : 0,
+            right: "-2%",
+            transform: `translateY(-50%) rotate(6deg) scale(${width >= 900 ? 0.7 : 0.55})`,
+            opacity: mounted ? 0.7 : 0,
             transition: "all 1s ease 1s",
             animation: mounted ? "cardFloat1 8s ease-in-out infinite" : "none",
+            zIndex: 0,
           }}
         >
           <CardVisual type="fortress" />
@@ -337,10 +377,11 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
       <div
         style={{
           textAlign: "center",
-          maxWidth: 900,
+          maxWidth: isLargeDesktop ? 800 : isSmallDesktop ? 700 : isTablet ? 600 : "100%",
           margin: "0 auto",
           position: "relative",
           zIndex: 2,
+          padding: isMobile ? "0 10px" : isTablet ? "0 20px" : "0",
         }}
       >
         {/* Badge */}
@@ -348,12 +389,12 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
           style={{
             display: "inline-flex",
             alignItems: "center",
-            gap: 10,
+            gap: isMobile ? 8 : 10,
             background: "var(--white)",
             border: "1px solid var(--gray-200)",
             borderRadius: 100,
-            padding: "10px 20px",
-            marginBottom: 28,
+            padding: isMobile ? "8px 16px" : "10px 20px",
+            marginBottom: isMobile ? 20 : 24,
             boxShadow: "0 4px 20px rgba(0, 0, 0, 0.04)",
             opacity: mounted ? 1 : 0,
             transform: mounted ? "translateY(0)" : "translateY(20px)",
@@ -362,14 +403,15 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
         >
           <span
             style={{
-              width: 8,
-              height: 8,
+              width: isMobile ? 6 : 8,
+              height: isMobile ? 6 : 8,
               borderRadius: "50%",
               background: "#10b981",
               animation: "pulse 2s ease-in-out infinite",
+              flexShrink: 0,
             }}
           />
-          <span style={{ fontSize: isMobile ? 13 : 14, fontWeight: 600, color: "var(--gray-700)" }}>
+          <span style={{ fontSize: isMobile ? 12 : 13, fontWeight: 600, color: "var(--gray-700)" }}>
             Now Building · Early Access Open
           </span>
         </div>
@@ -378,10 +420,10 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
         <h1
           style={{
             fontFamily: "'Poppins', sans-serif",
-            fontSize: isMobile ? "2.5rem" : isTablet ? "3.5rem" : "clamp(3.8rem, 6vw, 5rem)",
+            fontSize: isMobile ? "2.2rem" : isTablet ? "2.8rem" : isSmallDesktop ? "3.2rem" : "clamp(3.5rem, 5vw, 4.5rem)",
             fontWeight: 800,
             lineHeight: 1.1,
-            letterSpacing: isMobile ? -1 : -2.5,
+            letterSpacing: isMobile ? -0.5 : -2,
             color: "var(--gray-900)",
             marginBottom: 24,
             opacity: mounted ? 1 : 0,
@@ -409,11 +451,11 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
         {/* Subheadline */}
         <p
           style={{
-            fontSize: isMobile ? 17 : 20,
+            fontSize: isMobile ? 15 : isTablet ? 16 : 18,
             lineHeight: 1.7,
             color: "var(--gray-600)",
-            maxWidth: 650,
-            margin: "0 auto 40px",
+            maxWidth: isTablet ? 500 : 600,
+            margin: "0 auto 36px",
             opacity: mounted ? 1 : 0,
             transform: mounted ? "translateY(0)" : "translateY(30px)",
             transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s",
@@ -434,18 +476,18 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
         <div
           style={{
             display: "flex",
-            gap: 12,
+            gap: isMobile ? 10 : 12,
             flexDirection: isMobile ? "column" : "row",
             justifyContent: "center",
             alignItems: "center",
-            maxWidth: 560,
-            margin: "0 auto 32px",
+            maxWidth: isTablet ? 480 : 560,
+            margin: "0 auto 28px",
             opacity: mounted ? 1 : 0,
             transform: mounted ? "translateY(0)" : "translateY(30px)",
             transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.8s",
           }}
         >
-          <div style={{ flex: 1, width: isMobile ? "100%" : "auto", minWidth: isMobile ? "auto" : 300 }}>
+          <div style={{ flex: 1, width: isMobile ? "100%" : "auto", minWidth: isMobile ? "auto" : isTablet ? 240 : 280 }}>
             <input
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -456,9 +498,9 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
                 background: "var(--white)",
                 border: "2px solid var(--gray-200)",
                 color: "var(--gray-900)",
-                padding: "18px 24px",
-                borderRadius: 14,
-                fontSize: 16,
+                padding: isMobile ? "14px 18px" : isTablet ? "14px 20px" : "16px 22px",
+                borderRadius: 12,
+                fontSize: isMobile ? 14 : 15,
                 outline: "none",
                 transition: "all 0.3s ease",
                 fontFamily: "'Inter', sans-serif",
@@ -480,9 +522,9 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
             style={{
               background: "linear-gradient(135deg, var(--primary) 0%, #6366f1 100%)",
               color: "var(--white)",
-              padding: "18px 36px",
-              borderRadius: 14,
-              fontSize: 16,
+              padding: isMobile ? "14px 28px" : isTablet ? "14px 28px" : "16px 32px",
+              borderRadius: 12,
+              fontSize: isMobile ? 14 : 15,
               fontWeight: 700,
               border: "none",
               cursor: submitting ? "wait" : "pointer",
@@ -536,33 +578,33 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            gap: isMobile ? 12 : 20,
+            gap: isMobile ? 8 : isTablet ? 12 : 20,
             flexWrap: "wrap",
             opacity: mounted ? 1 : 0,
             transform: mounted ? "translateY(0)" : "translateY(20px)",
             transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1s",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2">
+          <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 4 : 6 }}>
+            <svg width={isMobile ? 14 : 16} height={isMobile ? 14 : 16} viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2">
               <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
-            <span style={{ fontSize: 13, color: "var(--gray-600)", fontWeight: 500 }}>Bank-grade Security</span>
+            <span style={{ fontSize: isMobile ? 11 : 12, color: "var(--gray-600)", fontWeight: 500 }}>Bank-grade Security</span>
           </div>
-          <div style={{ width: 4, height: 4, borderRadius: "50%", background: "var(--gray-300)" }} />
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2">
+          {!isMobile && <div style={{ width: 4, height: 4, borderRadius: "50%", background: "var(--gray-300)" }} />}
+          <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 4 : 6 }}>
+            <svg width={isMobile ? 14 : 16} height={isMobile ? 14 : 16} viewBox="0 0 24 24" fill="none" stroke="var(--primary)" strokeWidth="2">
               <circle cx="12" cy="12" r="10" />
               <polyline points="12 6 12 12 16 14" />
             </svg>
-            <span style={{ fontSize: 13, color: "var(--gray-600)", fontWeight: 500 }}>Setup in 2 mins</span>
+            <span style={{ fontSize: isMobile ? 11 : 12, color: "var(--gray-600)", fontWeight: 500 }}>Setup in 2 mins</span>
           </div>
-          <div style={{ width: 4, height: 4, borderRadius: "50%", background: "var(--gray-300)" }} />
-          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2">
+          {!isMobile && <div style={{ width: 4, height: 4, borderRadius: "50%", background: "var(--gray-300)" }} />}
+          <div style={{ display: "flex", alignItems: "center", gap: isMobile ? 4 : 6 }}>
+            <svg width={isMobile ? 14 : 16} height={isMobile ? 14 : 16} viewBox="0 0 24 24" fill="none" stroke="#f59e0b" strokeWidth="2">
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
             </svg>
-            <span style={{ fontSize: 13, color: "var(--gray-600)", fontWeight: 500 }}>4.9/5 Rating</span>
+            <span style={{ fontSize: isMobile ? 11 : 12, color: "var(--gray-600)", fontWeight: 500 }}>4.9/5 Rating</span>
           </div>
         </div>
       </div>
@@ -591,35 +633,36 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: isMobile ? "1fr" : isTablet ? "repeat(3, 1fr)" : "repeat(4, 1fr)",
-          gap: isMobile ? 16 : 20,
-          maxWidth: 900,
+          gridTemplateColumns: isMobile ? "1fr" : isTablet ? "repeat(2, 1fr)" : isSmallDesktop ? "repeat(4, 1fr)" : "repeat(4, 1fr)",
+          gap: isMobile ? 12 : isTablet ? 14 : isSmallDesktop ? 12 : 20,
+          maxWidth: isSmallDesktop ? 800 : 900,
           width: "100%",
-          margin: isMobile ? "32px auto 0" : "72px auto 0",
+          margin: isMobile ? "32px auto 0" : isTablet ? "48px auto 0" : "60px auto 0",
           position: "relative",
           zIndex: 2,
           opacity: mounted ? 1 : 0,
           transform: mounted ? "translateY(0)" : "translateY(40px)",
           transition: "all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 1.2s",
+          padding: isTablet ? "0 20px" : "0",
         }}
       >
         {[
           { value: supporterCount.toLocaleString(), label: "Early Supporters", icon: "users", color: "#4949f2" },
           { value: "$348", label: "Avg. Saved/Month", icon: "dollar", color: "#10b981" },
           { value: "200ms", label: "Block Speed", icon: "zap", color: "#f59e0b" },
-          ...(isMobile ? [] : [{ value: "92%", label: "Recovery Rate", icon: "chart", color: "#8b5cf6" }]),
+          { value: "92%", label: "Recovery Rate", icon: "chart", color: "#8b5cf6" },
         ].map((stat, i) => (
           <div
             key={stat.label}
             style={{
               background: "var(--white)",
-              borderRadius: 20,
-              padding: isMobile ? "20px 24px" : "24px 28px",
+              borderRadius: isSmallDesktop ? 16 : 20,
+              padding: isMobile ? "16px 18px" : isTablet ? "18px 20px" : isSmallDesktop ? "16px 18px" : "24px 28px",
               border: "1px solid var(--gray-200)",
               boxShadow: "0 4px 24px rgba(0, 0, 0, 0.04)",
               display: "flex",
               alignItems: "center",
-              gap: 16,
+              gap: isSmallDesktop ? 12 : 16,
               transition: "all 0.3s ease",
             }}
             onMouseEnter={(e) => {
@@ -635,9 +678,9 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
           >
             <div
               style={{
-                width: 48,
-                height: 48,
-                borderRadius: 14,
+                width: isSmallDesktop ? 40 : 48,
+                height: isSmallDesktop ? 40 : 48,
+                borderRadius: isSmallDesktop ? 12 : 14,
                 background: `${stat.color}15`,
                 display: "flex",
                 alignItems: "center",
@@ -675,7 +718,7 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
               <div
                 style={{
                   fontFamily: "'Poppins', sans-serif",
-                  fontSize: isMobile ? "1.5rem" : "1.75rem",
+                  fontSize: isMobile ? "1.3rem" : isTablet ? "1.4rem" : isSmallDesktop ? "1.25rem" : "1.6rem",
                   fontWeight: 700,
                   color: "var(--gray-900)",
                   lineHeight: 1,
@@ -687,7 +730,7 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
                   <AnimatedCounter value={stat.value} delay={1400 + i * 200} />
                 )}
               </div>
-              <div style={{ fontSize: 13, color: "var(--gray-500)", marginTop: 4, fontWeight: 500 }}>
+              <div style={{ fontSize: isSmallDesktop ? 11 : 13, color: "var(--gray-500)", marginTop: 4, fontWeight: 500 }}>
                 {stat.label}
               </div>
             </div>
@@ -696,7 +739,7 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
       </div>
 
       {/* Scroll indicator */}
-      {isDesktop && (
+      {isLargeDesktop && (
         <div
           style={{
             position: "absolute",
