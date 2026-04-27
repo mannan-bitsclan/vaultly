@@ -177,10 +177,8 @@ export function SurveyPopup({ onClose }) {
         </div>
 
         {/* CTA */}
-        <a
-          // onClick={handleClick}
-          href="https://api.leadconnectorhq.com/widget/survey/KhdizKHJ37fwYLrzWOyj"
-          target="_blank"
+        <button
+          onClick={handleClick}
           style={{
             display: "block",
             width: "100%",
@@ -206,7 +204,7 @@ export function SurveyPopup({ onClose }) {
           }}
         >
           Fill the Survey →
-        </a>
+        </button>
       </div>
     </div>
   );
