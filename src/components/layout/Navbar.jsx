@@ -68,7 +68,9 @@ export function Navbar() {
                   background: "none",
                   border: "none",
                   fontSize: 14,
-                  color: "var(--gray-600)",
+                  
+                  color: "#000000",
+                  letterSpacing: '1px',
                   fontWeight: 500,
                   cursor: "pointer",
                   padding: 0,

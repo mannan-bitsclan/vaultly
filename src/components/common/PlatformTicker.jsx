@@ -10,7 +10,7 @@ function PlatformCard({ platform }) {
         gap: 14,
         background: "rgba(255, 255, 255, 0.03)",
         border: "1px solid rgba(255, 255, 255, 0.08)",
-        borderRadius: 16,
+        borderRadius: 12,
         padding: "16px 24px",
         whiteSpace: "nowrap",
         transition: "all 0.3s cubic-bezier(0.16, 1, 0.3, 1)",

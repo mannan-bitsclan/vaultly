@@ -51,7 +51,7 @@ export function CardVisual({ type, small = false, animate = true }) {
       style={{
         width,
         height,
-        borderRadius: small ? 16 : 20,
+        borderRadius: 12,
         background: config.gradient,
         border: `1px solid ${config.border}30`,
         padding: small ? "18px 20px" : "24px 28px",

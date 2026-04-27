@@ -135,7 +135,7 @@ export function FAQSection() {
                       style={{
                         fontFamily: "'Poppins', sans-serif",
                         fontSize: isMobile ? "1rem" : "1.1rem",
-                        fontWeight: 700,
+                        fontWeight: 500,
                         color: "var(--gray-900)",
                         lineHeight: 1.3,
                       }}

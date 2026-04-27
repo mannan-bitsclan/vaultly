@@ -111,7 +111,7 @@ export function CTASection({ supporterCount, setSupporterCount }) {
                   display: "inline-block",
                   background: "var(--primary-glow)",
                   border: "1px solid rgba(73, 73, 242, 0.3)",
-                  borderRadius: 100,
+                  borderRadius: 12,
                   padding: "5px 14px",
                   fontSize: 11,
                   color: "var(--primary)",
@@ -219,7 +219,7 @@ export function CTASection({ supporterCount, setSupporterCount }) {
               style={{
                 background: "rgba(255, 255, 255, 0.03)",
                 border: "1px solid rgba(73, 73, 242, 0.2)",
-                borderRadius: 20,
+                borderRadius: 12,
                 padding: isMobile ? "28px 22px" : "36px 32px",
                 backdropFilter: "blur(10px)",
               }}

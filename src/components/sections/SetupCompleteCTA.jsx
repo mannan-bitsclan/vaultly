@@ -333,7 +333,7 @@ export function SetupCompleteCTA() {
   return (
     <section
       style={{
-        padding: isMobile ? "72px 5%" : isTablet ? "88px 5%" : "110px 5%",
+        padding: isMobile ? "72px 5%" : isTablet ? "88px 5%" : "80px 5%",
         background: "var(--black)",
         position: "relative",
         overflow: "hidden",
@@ -474,7 +474,7 @@ export function SetupCompleteCTA() {
                     backgroundClip: "text",
                   }}
                 >
-                  $350/month
+                  $4200/year
                 </span>
                 <br />
                 In Just 4 Steps
@@ -513,7 +513,7 @@ export function SetupCompleteCTA() {
                     style={{
                       background: "rgba(255, 255, 255, 0.03)",
                       border: "1px solid rgba(255, 255, 255, 0.08)",
-                      borderRadius: 16,
+                      borderRadius: 12,
                       padding: isMobile ? "16px 20px" : "20px 28px",
                       backdropFilter: "blur(10px)",
                       transition: "all 0.3s ease",

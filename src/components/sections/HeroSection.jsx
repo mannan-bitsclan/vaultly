@@ -19,7 +19,7 @@ function FloatingCard({ style, children, delay = 0 }) {
       style={{
         position: "absolute",
         background: "var(--white)",
-        borderRadius: 16,
+        borderRadius: 12,
         padding: "14px 18px",
         boxShadow: "0 20px 40px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04)",
         opacity: mounted ? 1 : 0,
@@ -104,14 +104,14 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
           country = new Intl.DisplayNames(["en"], { type: "region" }).of(r.country) || r.country;
           city = r.city || "";
         }
-      } catch {}
+      } catch { }
       await fetch(GOOGLE_SHEET_URL, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, timestamp: new Date().toISOString(), country, city }),
       });
-    } catch {}
+    } catch { }
     setSubmitting(false);
     setDone(true);
     setSupporterCount((c) => c + 1);
@@ -179,12 +179,12 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
             <CardVisual type="shield" />
           </div>
 
-          {/* Right side - Debit Cards stacked */}
+          {/* Right side - Debit Card */}
           <div
             style={{
               position: "absolute",
-              top: "15%",
-              right: width >= 1440 ? "2%" : "0%",
+              top: "22%",
+              right: width >= 1440 ? "3%" : "1%",
               transform: `rotate(6deg) scale(${width >= 1440 ? 1 : 0.85})`,
               opacity: mounted ? 1 : 0,
               transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 1s",
@@ -195,22 +195,7 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
             <CardVisual type="fortress" />
           </div>
 
-          <div
-            style={{
-              position: "absolute",
-              top: "52%",
-              right: width >= 1440 ? "8%" : "4%",
-              transform: `rotate(-4deg) scale(${width >= 1440 ? 1 : 0.85})`,
-              opacity: mounted ? 1 : 0,
-              transition: "all 1s cubic-bezier(0.16, 1, 0.3, 1) 1.2s",
-              animation: mounted ? "cardFloat3 7s ease-in-out infinite 1s" : "none",
-              zIndex: 0,
-            }}
-          >
-            <CardVisual type="kill" />
-          </div>
-
-          {/* Left side testimonial cards */}
+          {/* Left side testimonial - Sarah M. */}
           <FloatingCard
             delay={1.2}
             style={{
@@ -250,72 +235,44 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
             </p>
           </FloatingCard>
 
-          <FloatingCard
-            delay={1.5}
-            style={{
-              bottom: "18%",
-              left: width >= 1440 ? "4%" : "1%",
-              animation: "float 7s ease-in-out infinite 1s",
-              zIndex: 3,
-              transform: width >= 1440 ? "scale(1)" : "scale(0.9)",
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <div
-                style={{
-                  width: 36,
-                  height: 36,
-                  borderRadius: 10,
-                  background: "linear-gradient(135deg, #10b981, #06b6d4)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5">
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              </div>
-              <div>
-                <div style={{ fontWeight: 700, fontSize: 18, color: "var(--gray-900)" }}>12</div>
-                <div style={{ fontSize: 11, color: "var(--gray-500)" }}>Charges Blocked</div>
-              </div>
-            </div>
-          </FloatingCard>
-
-          <FloatingCard
-            delay={1.8}
-            style={{
-              bottom: "12%",
-              right: width >= 1440 ? "5%" : "2%",
-              animation: "float 6s ease-in-out infinite 2s",
-              zIndex: 3,
-              transform: width >= 1440 ? "scale(1)" : "scale(0.9)",
-            }}
-          >
-            <div style={{ textAlign: "center" }}>
-              <div style={{ fontWeight: 800, fontSize: 24, color: "var(--primary)", fontFamily: "'Poppins', sans-serif" }}>
-                $4.2M+
-              </div>
-              <div style={{ fontSize: 12, color: "var(--gray-500)", marginTop: 2 }}>Total Saved</div>
-            </div>
-          </FloatingCard>
-
+          {/* Right side testimonial - Marcus T. */}
           <FloatingCard
             delay={1.4}
             style={{
-              bottom: "28%",
-              left: width >= 1440 ? "10%" : "5%",
-              animation: "float 7s ease-in-out infinite 0.8s",
+              top: "58%",
+              right: width >= 1440 ? "5%" : "2%",
+              animation: "float 7s ease-in-out infinite 0.5s",
               zIndex: 3,
               transform: width >= 1440 ? "scale(1)" : "scale(0.9)",
             }}
           >
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <Stars count={5} size={16} />
-              <span style={{ fontWeight: 700, fontSize: 15, color: "var(--gray-900)" }}>4.9</span>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 12,
+                  background: "linear-gradient(135deg, #10b981, #059669)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "white",
+                  fontWeight: 700,
+                  fontSize: 16,
+                }}
+              >
+                M
+              </div>
+              <div>
+                <div style={{ fontWeight: 600, fontSize: 14, color: "var(--gray-900)", marginBottom: 2 }}>
+                  Marcus T.
+                </div>
+                <Stars count={5} size={12} />
+              </div>
             </div>
-            <div style={{ fontSize: 12, color: "var(--gray-500)", marginTop: 4 }}>2,400+ reviews</div>
+            <p style={{ fontSize: 13, color: "var(--gray-600)", marginTop: 10, maxWidth: 180, lineHeight: 1.5 }}>
+              "Finally, full control over my cards!"
+            </p>
           </FloatingCard>
         </>
       )}
@@ -392,7 +349,7 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
             gap: isMobile ? 8 : 10,
             background: "var(--white)",
             border: "1px solid var(--gray-200)",
-            borderRadius: 100,
+            borderRadius: "12px",
             padding: isMobile ? "8px 16px" : "10px 20px",
             marginBottom: isMobile ? 20 : 24,
             boxShadow: "0 4px 20px rgba(0, 0, 0, 0.04)",
@@ -635,7 +592,7 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
           display: "grid",
           gridTemplateColumns: isMobile ? "1fr" : isTablet ? "repeat(2, 1fr)" : isSmallDesktop ? "repeat(4, 1fr)" : "repeat(4, 1fr)",
           gap: isMobile ? 12 : isTablet ? 14 : isSmallDesktop ? 12 : 20,
-          maxWidth: isSmallDesktop ? 800 : 900,
+          maxWidth: isSmallDesktop ? 800 : 1200,
           width: "100%",
           margin: isMobile ? "32px auto 0" : isTablet ? "48px auto 0" : "60px auto 0",
           position: "relative",
@@ -648,15 +605,15 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
       >
         {[
           { value: supporterCount.toLocaleString(), label: "Early Supporters", icon: "users", color: "#4949f2" },
-          { value: "$348", label: "Avg. Saved/Month", icon: "dollar", color: "#10b981" },
+          { value: "$4176", label: "Avg. Saved/Yearly", icon: "dollar", color: "#10b981" },
           { value: "200ms", label: "Block Speed", icon: "zap", color: "#f59e0b" },
-          { value: "92%", label: "Recovery Rate", icon: "chart", color: "#8b5cf6" },
+          { value: "$4.2M+", label: "Total Saved", icon: "chart", color: "#8b5cf6" },
         ].map((stat, i) => (
           <div
             key={stat.label}
             style={{
               background: "var(--white)",
-              borderRadius: isSmallDesktop ? 16 : 20,
+              borderRadius: 12,
               padding: isMobile ? "16px 18px" : isTablet ? "18px 20px" : isSmallDesktop ? "16px 18px" : "24px 28px",
               border: "1px solid var(--gray-200)",
               boxShadow: "0 4px 24px rgba(0, 0, 0, 0.04)",
@@ -680,7 +637,7 @@ export function HeroSection({ supporterCount, setSupporterCount }) {
               style={{
                 width: isSmallDesktop ? 40 : 48,
                 height: isSmallDesktop ? 40 : 48,
-                borderRadius: isSmallDesktop ? 12 : 14,
+                borderRadius: 12,
                 background: `${stat.color}15`,
                 display: "flex",
                 alignItems: "center",

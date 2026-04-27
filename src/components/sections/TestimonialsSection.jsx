@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Reveal } from "../common";
 import { TESTIMONIALS } from "../../data";
 import { useResponsive } from "../../hooks";
@@ -21,7 +21,7 @@ function StarRating({ rating = 5 }) {
   );
 }
 
-function TestimonialCard({ testimonial, index, isActive, isMobile }) {
+function TestimonialCard({ testimonial, index, isMobile }) {
   const [isHovered, setIsHovered] = useState(false);
 
   const avatarColors = [
@@ -36,7 +36,7 @@ function TestimonialCard({ testimonial, index, isActive, isMobile }) {
     <div
       style={{
         background: "var(--white)",
-        borderRadius: 20,
+        borderRadius: 12,
         padding: isMobile ? 24 : 28,
         border: `1px solid ${isHovered ? "rgba(73, 73, 242, 0.2)" : "var(--gray-200)"}`,
         boxShadow: isHovered
@@ -83,7 +83,7 @@ function TestimonialCard({ testimonial, index, isActive, isMobile }) {
           style={{
             width: 52,
             height: 52,
-            borderRadius: 14,
+            borderRadius: 12,
             background: avatarColors[index % avatarColors.length],
             display: "flex",
             alignItems: "center",
@@ -240,15 +240,31 @@ function TestimonialCard({ testimonial, index, isActive, isMobile }) {
   );
 }
 
-function FeaturedTestimonial({ testimonial, isMobile, isTablet }) {
+function MainTestimonialCard({ testimonial, isMobile, isTablet }) {
+  const avatarColors = [
+    "linear-gradient(135deg, #4949f2 0%, #7c3aed 100%)",
+    "linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)",
+    "linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%)",
+  ];
+
+  const getAvatarColor = (name) => {
+    const index = name.charCodeAt(0) % avatarColors.length;
+    return avatarColors[index];
+  };
+
   return (
     <div
       style={{
         background: "linear-gradient(135deg, #4949f2 0%, #6366f1 50%, #8b5cf6 100%)",
-        borderRadius: 28,
-        padding: isMobile ? 28 : isTablet ? 36 : 48,
+        borderRadius: 16,
+        padding: isMobile ? 32 : isTablet ? 40 : 48,
         position: "relative",
         overflow: "hidden",
+        height: "100%",
+        minHeight: isMobile ? "auto" : 380,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
       }}
     >
       {/* Background pattern */}
@@ -288,166 +304,261 @@ function FeaturedTestimonial({ testimonial, isMobile, isTablet }) {
         }}
       />
 
-      <div
-        style={{
-          position: "relative",
-          zIndex: 2,
-          display: "grid",
-          gridTemplateColumns: isMobile ? "1fr" : "1fr auto",
-          gap: isMobile ? 32 : 48,
-          alignItems: "center",
-        }}
-      >
-        {/* Content */}
-        <div>
-          {/* Quote icon */}
+      <div style={{ position: "relative", zIndex: 2 }}>
+        {/* Quote icon */}
+        <div
+          style={{
+            width: 56,
+            height: 56,
+            borderRadius: 14,
+            background: "rgba(255, 255, 255, 0.15)",
+            backdropFilter: "blur(10px)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: 28,
+          }}
+        >
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
+            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+          </svg>
+        </div>
+
+        {/* Quote text */}
+        <p
+          style={{
+            fontSize: isMobile ? 20 : isTablet ? 24 : 28,
+            fontWeight: 500,
+            lineHeight: 1.5,
+            color: "white",
+            marginBottom: 32,
+            fontFamily: "'Poppins', sans-serif",
+          }}
+        >
+          "{testimonial.text}"
+        </p>
+
+        {/* Author info */}
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <div
             style={{
               width: 56,
               height: 56,
-              borderRadius: 16,
-              background: "rgba(255, 255, 255, 0.15)",
-              backdropFilter: "blur(10px)",
+              borderRadius: 14,
+              background: getAvatarColor(testimonial.name),
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              marginBottom: 24,
-            }}
-          >
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="white">
-              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-            </svg>
-          </div>
-
-          {/* Quote text */}
-          <p
-            style={{
-              fontSize: isMobile ? 20 : isTablet ? 24 : 28,
-              fontWeight: 500,
-              lineHeight: 1.5,
-              color: "white",
-              marginBottom: 32,
               fontFamily: "'Poppins', sans-serif",
+              fontWeight: 700,
+              color: "white",
+              fontSize: 24,
+              border: "3px solid rgba(255, 255, 255, 0.3)",
             }}
           >
-            "{testimonial.text}"
-          </p>
-
-          {/* Author info */}
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+            {testimonial.name.charAt(0)}
+          </div>
+          <div>
             <div
               style={{
-                width: 56,
-                height: 56,
-                borderRadius: 16,
-                background: "rgba(255, 255, 255, 0.2)",
-                backdropFilter: "blur(10px)",
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "center",
-                fontFamily: "'Poppins', sans-serif",
-                fontWeight: 700,
-                color: "white",
-                fontSize: 22,
-                border: "2px solid rgba(255, 255, 255, 0.3)",
+                gap: 10,
+                marginBottom: 4,
               }}
             >
-              {testimonial.name.charAt(0)}
-            </div>
-            <div>
-              <div
+              <span
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 8,
-                  marginBottom: 4,
+                  fontWeight: 600,
+                  fontSize: 20,
+                  color: "white",
                 }}
               >
-                <span
-                  style={{
-                    fontWeight: 600,
-                    fontSize: 18,
-                    color: "white",
-                  }}
-                >
-                  {testimonial.name}
-                </span>
-                <div
-                  style={{
-                    background: "rgba(255, 255, 255, 0.2)",
-                    borderRadius: 100,
-                    padding: "4px 10px",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 4,
-                  }}
-                >
-                  <svg
-                    width="12"
-                    height="12"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="2.5"
-                  >
-                    <polyline points="20 6 9 17 4 12" />
-                  </svg>
-                  <span style={{ fontSize: 11, color: "white", fontWeight: 500 }}>
-                    Verified
-                  </span>
-                </div>
-              </div>
-              <span style={{ fontSize: 14, color: "rgba(255, 255, 255, 0.7)" }}>
-                {testimonial.role}
+                {testimonial.name}
               </span>
+              <div
+                style={{
+                  background: "rgba(255, 255, 255, 0.2)",
+                  borderRadius: 100,
+                  padding: "5px 10px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 5,
+                }}
+              >
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="2.5"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+                <span style={{ fontSize: 11, color: "white", fontWeight: 500 }}>
+                  Verified
+                </span>
+              </div>
             </div>
+            <span style={{ fontSize: 15, color: "rgba(255, 255, 255, 0.7)" }}>
+              {testimonial.role}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SideSliderCard({ testimonial, index, isMobile }) {
+  const avatarColors = [
+    "linear-gradient(135deg, #4949f2 0%, #7c3aed 100%)",
+    "linear-gradient(135deg, #06b6d4 0%, #3b82f6 100%)",
+    "linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%)",
+  ];
+
+  return (
+    <div
+      style={{
+        background: "var(--white)",
+        borderRadius: 16,
+        padding: 28,
+        border: "1px solid var(--gray-200)",
+        boxShadow: "0 4px 20px rgba(0, 0, 0, 0.06)",
+        height: "100%",
+        minHeight: isMobile ? "auto" : 380,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        position: "relative",
+        overflow: "hidden",
+      }}
+    >
+      {/* Background decorative number */}
+      <div
+        style={{
+          position: "absolute",
+          bottom: -20,
+          right: 10,
+          fontFamily: "'Poppins', sans-serif",
+          fontSize: 180,
+          fontWeight: 900,
+          color: "rgba(73, 73, 242, 0.04)",
+          lineHeight: 1,
+          userSelect: "none",
+          pointerEvents: "none",
+        }}
+      >
+        {String(index + 1).padStart(2, "0")}
+      </div>
+
+      <div style={{ position: "relative", zIndex: 1 }}>
+        {/* Quote icon */}
+        <div
+          style={{
+            width: 48,
+            height: 48,
+            borderRadius: 12,
+            background: "linear-gradient(135deg, rgba(73, 73, 242, 0.1), rgba(139, 92, 246, 0.1))",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: 24,
+          }}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="#4949f2">
+            <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+          </svg>
+        </div>
+
+        {/* Quote text */}
+        <p
+          style={{
+            fontSize: 16,
+            fontWeight: 500,
+            lineHeight: 1.7,
+            color: "var(--gray-700)",
+            marginBottom: 28,
+          }}
+        >
+          "{testimonial.text}"
+        </p>
+
+        {/* Author info */}
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+          <div
+            style={{
+              width: 48,
+              height: 48,
+              borderRadius: 12,
+              background: avatarColors[index % avatarColors.length],
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontFamily: "'Poppins', sans-serif",
+              fontWeight: 700,
+              color: "white",
+              fontSize: 20,
+            }}
+          >
+            {testimonial.name.charAt(0)}
+          </div>
+          <div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                marginBottom: 2,
+              }}
+            >
+              <span
+                style={{
+                  fontWeight: 600,
+                  fontSize: 16,
+                  color: "var(--gray-900)",
+                }}
+              >
+                {testimonial.name}
+              </span>
+              <div
+                style={{
+                  width: 18,
+                  height: 18,
+                  borderRadius: "50%",
+                  background: "#4949f2",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <svg
+                  width="10"
+                  height="10"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="white"
+                  strokeWidth="3"
+                >
+                  <polyline points="20 6 9 17 4 12" />
+                </svg>
+              </div>
+            </div>
+            <span style={{ fontSize: 13, color: "var(--gray-500)" }}>
+              {testimonial.role}
+            </span>
           </div>
         </div>
 
-        {/* Stats card */}
-        {!isMobile && (
-          <div
-            style={{
-              background: "rgba(255, 255, 255, 0.1)",
-              backdropFilter: "blur(20px)",
-              borderRadius: 20,
-              padding: 28,
-              border: "1px solid rgba(255, 255, 255, 0.15)",
-              minWidth: 200,
-            }}
-          >
-            <div style={{ textAlign: "center", marginBottom: 20 }}>
-              <div
-                style={{
-                  fontSize: 42,
-                  fontWeight: 700,
-                  color: "white",
-                  fontFamily: "'Poppins', sans-serif",
-                  lineHeight: 1,
-                }}
-              >
-                $350
-              </div>
-              <div style={{ fontSize: 14, color: "rgba(255, 255, 255, 0.7)", marginTop: 4 }}>
-                saved monthly
-              </div>
-            </div>
-            <div
-              style={{
-                height: 1,
-                background: "rgba(255, 255, 255, 0.15)",
-                margin: "16px 0",
-              }}
-            />
-            <div style={{ display: "flex", justifyContent: "center", gap: 3 }}>
-              {[...Array(5)].map((_, i) => (
-                <svg key={i} width="18" height="18" viewBox="0 0 24 24" fill="white">
-                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                </svg>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Star rating */}
+        <div style={{ marginTop: 20, display: "flex", gap: 4 }}>
+          {[...Array(5)].map((_, i) => (
+            <svg key={i} width="16" height="16" viewBox="0 0 24 24" fill="#4949f2">
+              <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -455,26 +566,33 @@ function FeaturedTestimonial({ testimonial, isMobile, isTablet }) {
 
 export function TestimonialsSection() {
   const { isMobile, isTablet } = useResponsive();
-  const [activeSlide, setActiveSlide] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const sliderRef = useRef(null);
 
-  const featuredTestimonial = TESTIMONIALS[0];
-  const otherTestimonials = TESTIMONIALS.slice(1);
+  // Get the next testimonial index for the side card
+  const sideIndex = (activeIndex + 1) % TESTIMONIALS.length;
 
-  // Auto-scroll for mobile carousel
+  // Auto-slide
   useEffect(() => {
-    if (!isMobile || isPaused) return;
+    if (isPaused) return;
     const interval = setInterval(() => {
-      setActiveSlide((prev) => (prev + 1) % TESTIMONIALS.length);
-    }, 5000);
+      setActiveIndex((prev) => (prev + 1) % TESTIMONIALS.length);
+    }, 6000);
     return () => clearInterval(interval);
-  }, [isMobile, isPaused]);
+  }, [isPaused]);
+
+  const handlePrev = () => {
+    setActiveIndex((prev) => (prev - 1 + TESTIMONIALS.length) % TESTIMONIALS.length);
+  };
+
+  const handleNext = () => {
+    setActiveIndex((prev) => (prev + 1) % TESTIMONIALS.length);
+  };
 
   return (
     <section
       style={{
-        padding: isMobile ? "72px 5%" : isTablet ? "88px 5%" : "110px 5%",
+        padding: isMobile ? "72px 5%" : isTablet ? "88px 5%" : "100px 5%",
         background: "var(--gray-50)",
         position: "relative",
         overflow: "hidden",
@@ -493,7 +611,7 @@ export function TestimonialsSection() {
         }}
       />
 
-      <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 2 }}>
+      <div style={{ maxWidth: 1400, margin: "0 auto", position: "relative", zIndex: 2 }}>
         {/* Header */}
         <Reveal>
           <div
@@ -503,7 +621,7 @@ export function TestimonialsSection() {
               alignItems: isMobile ? "flex-start" : "flex-end",
               justifyContent: "space-between",
               gap: 24,
-              marginBottom: isMobile ? 36 : 48,
+              marginBottom: isMobile ? 36 : 56,
             }}
           >
             <div style={{ maxWidth: 600 }}>
@@ -514,7 +632,7 @@ export function TestimonialsSection() {
                   gap: 8,
                   background: "var(--white)",
                   border: "1px solid var(--gray-200)",
-                  borderRadius: 100,
+                  borderRadius: 12,
                   padding: "8px 16px",
                   marginBottom: 16,
                   boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
@@ -583,7 +701,7 @@ export function TestimonialsSection() {
                   alignItems: "center",
                   gap: 16,
                   background: "var(--white)",
-                  borderRadius: 16,
+                  borderRadius: 12,
                   padding: "20px 28px",
                   border: "1px solid var(--gray-200)",
                   boxShadow: "0 4px 16px rgba(0, 0, 0, 0.04)",
@@ -617,105 +735,150 @@ export function TestimonialsSection() {
           </div>
         </Reveal>
 
-        {/* Featured testimonial */}
+        {/* Main Slider Section - 70% / 30% layout */}
         <Reveal>
-          <div style={{ marginBottom: isMobile ? 24 : 32 }}>
-            <FeaturedTestimonial
-              testimonial={featuredTestimonial}
-              isMobile={isMobile}
-              isTablet={isTablet}
-            />
-          </div>
-        </Reveal>
-
-        {/* Testimonials grid or carousel */}
-        {isMobile ? (
           <div
-            ref={sliderRef}
-            style={{ position: "relative" }}
+            style={{
+              marginBottom: isMobile ? 32 : 48,
+            }}
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
           >
-            {/* Carousel */}
             <div
               style={{
-                overflow: "hidden",
-                borderRadius: 20,
+                display: "grid",
+                gridTemplateColumns: isMobile ? "1fr" : isTablet ? "1fr" : "70% 30%",
+                gap: 24,
               }}
             >
-              <div
-                style={{
-                  display: "flex",
-                  transition: "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
-                  transform: `translateX(-${activeSlide * 100}%)`,
-                }}
-              >
-                {TESTIMONIALS.map((t, i) => (
-                  <div
-                    key={i}
-                    style={{
-                      minWidth: "100%",
-                      padding: "0 4px",
-                    }}
-                  >
-                    <TestimonialCard
-                      testimonial={t}
-                      index={i}
-                      isActive={i === activeSlide}
-                      isMobile={isMobile}
-                    />
-                  </div>
-                ))}
-              </div>
+              {/* Main testimonial - 70% */}
+              <MainTestimonialCard
+                key={`main-${activeIndex}`}
+                testimonial={TESTIMONIALS[activeIndex]}
+                isMobile={isMobile}
+                isTablet={isTablet}
+              />
+
+              {/* Side testimonial - 30% */}
+              {!isMobile && !isTablet && (
+                <SideSliderCard
+                  key={`side-${sideIndex}`}
+                  testimonial={TESTIMONIALS[sideIndex]}
+                  index={sideIndex}
+                  isMobile={isMobile}
+                />
+              )}
             </div>
 
-            {/* Dots indicator */}
+            {/* Navigation */}
             <div
               style={{
                 display: "flex",
+                alignItems: "center",
                 justifyContent: "center",
-                gap: 8,
-                marginTop: 20,
+                gap: 20,
+                marginTop: 32,
               }}
             >
-              {TESTIMONIALS.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActiveSlide(i)}
-                  style={{
-                    width: activeSlide === i ? 24 : 8,
-                    height: 8,
-                    borderRadius: 100,
-                    background: activeSlide === i ? "#4949f2" : "var(--gray-300)",
-                    border: "none",
-                    cursor: "pointer",
-                    transition: "all 0.3s ease",
-                    padding: 0,
-                  }}
-                />
-              ))}
+              {/* Prev button */}
+              <button
+                onClick={handlePrev}
+                style={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: "50%",
+                  background: "var(--white)",
+                  border: "1px solid var(--gray-200)",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.06)",
+                }}
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#4949f2"
+                  strokeWidth="2"
+                >
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </button>
+
+              {/* Dots */}
+              <div style={{ display: "flex", gap: 10 }}>
+                {TESTIMONIALS.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveIndex(i)}
+                    style={{
+                      width: activeIndex === i ? 32 : 10,
+                      height: 10,
+                      borderRadius: 100,
+                      background: activeIndex === i ? "#4949f2" : "var(--gray-300)",
+                      border: "none",
+                      cursor: "pointer",
+                      transition: "all 0.3s ease",
+                      padding: 0,
+                    }}
+                  />
+                ))}
+              </div>
+
+              {/* Next button */}
+              <button
+                onClick={handleNext}
+                style={{
+                  width: 48,
+                  height: 48,
+                  borderRadius: "50%",
+                  background: "var(--white)",
+                  border: "1px solid var(--gray-200)",
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.3s ease",
+                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.06)",
+                }}
+              >
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#4949f2"
+                  strokeWidth="2"
+                >
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </button>
             </div>
           </div>
-        ) : (
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: isTablet ? "1fr 1fr" : "repeat(3, 1fr)",
-              gap: 24,
-            }}
-          >
-            {otherTestimonials.map((t, i) => (
-              <Reveal key={i} delay={i * 0.1}>
-                <TestimonialCard
-                  testimonial={t}
-                  index={i + 1}
-                  isActive={false}
-                  isMobile={isMobile}
-                />
-              </Reveal>
-            ))}
-          </div>
-        )}
+        </Reveal>
+
+        {/* Bottom testimonials grid - Priya S testimonials */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: isMobile ? "1fr" : isTablet ? "1fr 1fr" : "repeat(3, 1fr)",
+            gap: 24,
+          }}
+        >
+          {TESTIMONIALS.map((t, i) => (
+            <Reveal key={i} delay={i * 0.1}>
+              <TestimonialCard
+                testimonial={t}
+                index={i}
+                isMobile={isMobile}
+              />
+            </Reveal>
+          ))}
+        </div>
 
         {/* Bottom stats bar */}
         <Reveal delay={0.2}>
@@ -726,7 +889,7 @@ export function TestimonialsSection() {
               gridTemplateColumns: isMobile ? "1fr" : "repeat(4, 1fr)",
               gap: isMobile ? 16 : 0,
               background: "var(--white)",
-              borderRadius: 20,
+              borderRadius: 12,
               border: "1px solid var(--gray-200)",
               overflow: "hidden",
               boxShadow: "0 4px 24px rgba(0, 0, 0, 0.04)",

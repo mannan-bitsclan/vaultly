@@ -1,510 +1,151 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Reveal } from "../common";
 import { BLOGS } from "../../data";
 import { useResponsive } from "../../hooks";
 
-const FILTER_OPTIONS = [
-  { label: "All", color: "var(--primary)" },
-  { label: "Ghost Charges", color: "#4949f2" },
-  { label: "Security Cascade", color: "#a78bfa" },
-  { label: "Fronting Tax", color: "#10b981" },
-  { label: "Zombie Tools", color: "#f59e0b" },
-];
-
-const CATEGORY_ICONS = {
-  "Ghost Charges": (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
-      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-      <line x1="12" y1="17" x2="12.01" y2="17" />
-    </svg>
-  ),
-  "Security Cascade": (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-      <line x1="12" y1="8" x2="12" y2="12" />
-      <line x1="12" y1="16" x2="12.01" y2="16" />
-    </svg>
-  ),
-  "Fronting Tax": (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="12" y1="1" x2="12" y2="23" />
-      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
-    </svg>
-  ),
-  "Zombie Tools": (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="10" />
-      <line x1="15" y1="9" x2="9" y2="15" />
-      <line x1="9" y1="9" x2="15" y2="15" />
-    </svg>
-  ),
+const CATEGORY_COLORS = {
+  "Ghost Charges": "#4949f2",
+  "Security Cascade": "#a78bfa",
+  "Fronting Tax": "#10b981",
+  "Zombie Tools": "#f59e0b",
 };
 
-function BlogCard({ blog, isMobile, isTablet, isFeatured = false }) {
+function ModernBlogCard({ blog, isMobile }) {
   const [isHovered, setIsHovered] = useState(false);
+  const color = CATEGORY_COLORS[blog.category] || "#4949f2";
 
-  if (isFeatured) {
-    return (
+  return (
+    <Link
+      to={`/blog/${blog.slug}`}
+      style={{ textDecoration: "none", display: "block" }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: isMobile ? "1fr" : "1fr 1fr",
-          gap: isMobile ? 0 : 0,
+          position: "relative",
           background: "var(--white)",
-          borderRadius: 28,
+          borderRadius: 12,
           overflow: "hidden",
-          border: "1px solid var(--gray-200)",
-          boxShadow: "0 20px 60px rgba(0, 0, 0, 0.08)",
+          border: `1.5px solid ${isHovered ? color : "var(--gray-200)"}`,
+          boxShadow: isHovered
+            ? `0 20px 40px -12px rgba(0, 0, 0, 0.18), 0 0 0 1px ${color}30`
+            : "0 2px 12px rgba(0, 0, 0, 0.06)",
           transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = "translateY(-6px)";
-          e.currentTarget.style.boxShadow = `0 30px 80px rgba(0, 0, 0, 0.12), 0 0 0 1px ${blog.color}30`;
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = "";
-          e.currentTarget.style.boxShadow = "0 20px 60px rgba(0, 0, 0, 0.08)";
+          transform: isHovered ? "translateY(-6px)" : "none",
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
-        {/* Image/Visual area */}
+        {/* Gradient accent bar */}
         <div
           style={{
-            background: `linear-gradient(135deg, ${blog.color}15, ${blog.color}05)`,
-            padding: isMobile ? "40px 30px" : "60px 50px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "relative",
-            overflow: "hidden",
-            minHeight: isMobile ? 200 : 300,
+            height: 5,
+            background: `linear-gradient(90deg, ${color}, ${color}cc)`,
+            transition: "all 0.3s ease",
           }}
-        >
-          {/* Decorative circles */}
-          <div
-            style={{
-              position: "absolute",
-              top: -50,
-              right: -50,
-              width: 200,
-              height: 200,
-              borderRadius: "50%",
-              background: `${blog.color}10`,
-              pointerEvents: "none",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              bottom: -30,
-              left: -30,
-              width: 150,
-              height: 150,
-              borderRadius: "50%",
-              background: `${blog.color}08`,
-              pointerEvents: "none",
-            }}
-          />
+        />
 
-          {/* Icon */}
-          <div
-            style={{
-              width: 100,
-              height: 100,
-              borderRadius: 28,
-              background: `linear-gradient(135deg, ${blog.color}, ${blog.color}cc)`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-              marginBottom: 24,
-              boxShadow: `0 20px 40px ${blog.color}40`,
-            }}
-          >
-            <div style={{ transform: "scale(1.8)" }}>
-              {CATEGORY_ICONS[blog.category]}
-            </div>
-          </div>
-
-          {/* Problem badge */}
-          <div
-            style={{
-              background: "var(--white)",
-              borderRadius: 100,
-              padding: "10px 24px",
-              boxShadow: "0 8px 24px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <span
-              style={{
-                fontSize: 14,
-                fontWeight: 700,
-                color: blog.color,
-                letterSpacing: 1,
-              }}
-            >
-              Problem {blog.problem} · Part {blog.part}
-            </span>
-          </div>
-        </div>
-
-        {/* Content area */}
+        {/* Content */}
         <div
           style={{
-            padding: isMobile ? "32px 28px" : "48px 44px",
+            padding: isMobile ? "24px 20px 28px" : "28px 24px 32px",
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
+            flex: 1,
           }}
         >
-          {/* Category tag */}
-          <div
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: 8,
-              background: `${blog.color}10`,
-              border: `1px solid ${blog.color}25`,
-              borderRadius: 100,
-              padding: "6px 14px",
-              marginBottom: 20,
-              width: "fit-content",
-            }}
-          >
-            <div
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: "50%",
-                background: blog.color,
-              }}
-            />
-            <span
-              style={{
-                fontSize: 11,
-                fontWeight: 700,
-                color: blog.color,
-                letterSpacing: 1,
-                textTransform: "uppercase",
-              }}
-            >
-              {blog.category}
-            </span>
-          </div>
-
-          <h3
-            style={{
-              fontFamily: "'Poppins', sans-serif",
-              fontSize: isMobile ? "1.4rem" : "1.65rem",
-              fontWeight: 700,
-              color: "var(--gray-900)",
-              lineHeight: 1.3,
-              letterSpacing: -0.5,
-              marginBottom: 16,
-            }}
-          >
-            {blog.title}
-          </h3>
-
-          <p
-            style={{
-              fontSize: isMobile ? 14 : 16,
-              color: "var(--gray-600)",
-              lineHeight: 1.75,
-              marginBottom: 28,
-            }}
-          >
-            {blog.excerpt}
-          </p>
-
-          {/* Footer */}
+          {/* Category & Read Time */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-              }}
-            >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="var(--gray-400)"
-                strokeWidth="2"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <polyline points="12 6 12 12 16 14" />
-              </svg>
-              <span style={{ fontSize: 13, color: "var(--gray-500)", fontWeight: 500 }}>
-                {blog.readTime} read
-              </span>
-            </div>
-
-            <button
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                background: blog.color,
-                color: "white",
-                border: "none",
-                padding: "12px 24px",
-                borderRadius: 12,
-                fontSize: 14,
-                fontWeight: 700,
-                cursor: "pointer",
-                transition: "all 0.3s ease",
-                boxShadow: `0 8px 20px ${blog.color}30`,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "translateY(-2px)";
-                e.currentTarget.style.boxShadow = `0 12px 28px ${blog.color}40`;
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "";
-                e.currentTarget.style.boxShadow = `0 8px 20px ${blog.color}30`;
-              }}
-            >
-              Read Article
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <line x1="5" y1="12" x2="19" y2="12" />
-                <polyline points="12 5 19 12 12 19" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div
-      style={{
-        background: isHovered ? "var(--white)" : "var(--gray-50)",
-        borderRadius: 24,
-        overflow: "hidden",
-        border: `1px solid ${isHovered ? `${blog.color}30` : "var(--gray-200)"}`,
-        boxShadow: isHovered
-          ? `0 24px 50px rgba(0, 0, 0, 0.12), 0 0 0 1px ${blog.color}15`
-          : "0 4px 20px rgba(0, 0, 0, 0.03)",
-        transition: "all 0.4s cubic-bezier(0.16, 1, 0.3, 1)",
-        transform: isHovered ? "translateY(-8px)" : "none",
-        height: "100%",
-        display: "flex",
-        flexDirection: "column",
-      }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* Thumbnail area */}
-      <div
-        style={{
-          background: `linear-gradient(135deg, ${blog.color}12, ${blog.color}05)`,
-          padding: "28px 24px",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        {/* Decorative element */}
-        <div
-          style={{
-            position: "absolute",
-            top: -30,
-            right: -30,
-            width: 100,
-            height: 100,
-            borderRadius: "50%",
-            background: `${blog.color}10`,
-            transition: "transform 0.4s ease",
-            transform: isHovered ? "scale(1.5)" : "scale(1)",
-          }}
-        />
-
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            position: "relative",
-            zIndex: 2,
-          }}
-        >
-          {/* Icon */}
-          <div
-            style={{
-              width: 52,
-              height: 52,
-              borderRadius: 14,
-              background: isHovered
-                ? `linear-gradient(135deg, ${blog.color}, ${blog.color}cc)`
-                : `${blog.color}20`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: isHovered ? "white" : blog.color,
-              transition: "all 0.3s ease",
-              boxShadow: isHovered ? `0 12px 24px ${blog.color}35` : "none",
-            }}
-          >
-            {CATEGORY_ICONS[blog.category]}
-          </div>
-
-          {/* Problem badge */}
-          <div
-            style={{
-              background: "var(--white)",
-              borderRadius: 100,
-              padding: "6px 14px",
-              boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+              marginBottom: 18,
             }}
           >
             <span
               style={{
                 fontSize: 11,
                 fontWeight: 700,
-                color: blog.color,
-                letterSpacing: 0.5,
+                color: color,
+                letterSpacing: 1.2,
+                textTransform: "uppercase",
+                background: `${color}12`,
+                padding: "6px 12px",
+                borderRadius: 8,
               }}
             >
-              Problem {blog.problem}
+              {blog.category}
             </span>
-          </div>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div
-        style={{
-          padding: "24px 24px 28px",
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-        }}
-      >
-        {/* Category & Part */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            marginBottom: 14,
-          }}
-        >
-          <span
-            style={{
-              fontSize: 10,
-              fontWeight: 700,
-              color: blog.color,
-              letterSpacing: 1,
-              textTransform: "uppercase",
-            }}
-          >
-            {blog.category}
-          </span>
-          <span
-            style={{
-              fontSize: 10,
-              color: "var(--gray-400)",
-              fontFamily: "'DM Mono', monospace",
-            }}
-          >
-            Part {blog.part}
-          </span>
-        </div>
-
-        {/* Title */}
-        <h3
-          style={{
-            fontFamily: "'Poppins', sans-serif",
-            fontSize: isMobile ? "1.05rem" : "1.1rem",
-            fontWeight: 700,
-            color: "var(--gray-900)",
-            lineHeight: 1.4,
-            letterSpacing: -0.3,
-            marginBottom: 12,
-            flex: 1,
-          }}
-        >
-          {blog.title}
-        </h3>
-
-        {/* Excerpt */}
-        <p
-          style={{
-            fontSize: 13,
-            color: "var(--gray-500)",
-            lineHeight: 1.7,
-            marginBottom: 20,
-            display: "-webkit-box",
-            WebkitLineClamp: 3,
-            WebkitBoxOrient: "vertical",
-            overflow: "hidden",
-          }}
-        >
-          {blog.excerpt}
-        </p>
-
-        {/* Footer */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            paddingTop: 16,
-            borderTop: `1px solid ${isHovered ? `${blog.color}20` : "var(--gray-200)"}`,
-            transition: "border-color 0.3s ease",
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 6,
-            }}
-          >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="var(--gray-400)"
-              strokeWidth="2"
+            <span
+              style={{
+                fontSize: 12,
+                color: "var(--gray-500)",
+                fontWeight: 500,
+              }}
             >
-              <circle cx="12" cy="12" r="10" />
-              <polyline points="12 6 12 12 16 14" />
-            </svg>
-            <span style={{ fontSize: 12, color: "var(--gray-500)", fontWeight: 500 }}>
               {blog.readTime}
             </span>
           </div>
 
+          {/* Title - LARGER and more prominent */}
+          <h3
+            style={{
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: isMobile ? "1.15rem" : "1.25rem",
+              fontWeight: 700,
+              color: "var(--gray-900)",
+              lineHeight: 1.35,
+              letterSpacing: -0.3,
+              marginBottom: 14,
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+            }}
+          >
+            {blog.title}
+          </h3>
+
+          {/* Excerpt - Better contrast and larger */}
+          <p
+            style={{
+              fontSize: isMobile ? 14 : 15,
+              color: "#000000",
+              lineHeight: 1.7,
+              marginBottom: 24,
+              display: "-webkit-box",
+              WebkitLineClamp: 3,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              flex: 1,
+            }}
+          >
+            {blog.excerpt}
+          </p>
+
+          {/* Read more - More prominent */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
-              gap: 6,
-              color: isHovered ? blog.color : "var(--gray-400)",
-              transition: "color 0.3s ease",
-              cursor: "pointer",
+              gap: 8,
+              color: isHovered ? color : "var(--gray-500)",
+              transition: "all 0.3s ease",
+              marginTop: "auto",
             }}
           >
-            <span style={{ fontSize: 12, fontWeight: 600 }}>Read more</span>
+            <span style={{ fontSize: 14, fontWeight: 600 }}>Read article</span>
             <svg
-              width="14"
-              height="14"
+              width="18"
+              height="18"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2.5"
+              strokeWidth="2"
               style={{
                 transition: "transform 0.3s ease",
                 transform: isHovered ? "translateX(4px)" : "none",
@@ -516,65 +157,193 @@ function BlogCard({ blog, isMobile, isTablet, isFeatured = false }) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
+  );
+}
+
+function FeaturedCard({ blog, isMobile, isTablet }) {
+  const [isHovered, setIsHovered] = useState(false);
+  const color = CATEGORY_COLORS[blog.category] || "#4949f2";
+
+  return (
+    <Link
+      to={`/blog/${blog.slug}`}
+      style={{ textDecoration: "none", display: "block" }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div
+        style={{
+          position: "relative",
+          background: `linear-gradient(135deg, ${color} 0%, ${color}dd 100%)`,
+          borderRadius: 12,
+          overflow: "hidden",
+          boxShadow: isHovered
+            ? `0 30px 60px -12px ${color}50`
+            : `0 20px 40px -12px ${color}30`,
+          transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)",
+          transform: isHovered ? "translateY(-6px) scale(1.01)" : "none",
+        }}
+      >
+        {/* Decorative elements */}
+        <div
+          style={{
+            position: "absolute",
+            top: -100,
+            right: -100,
+            width: 300,
+            height: 300,
+            borderRadius: "50%",
+            background: "rgba(255, 255, 255, 0.1)",
+            pointerEvents: "none",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            bottom: -50,
+            left: -50,
+            width: 200,
+            height: 200,
+            borderRadius: "50%",
+            background: "rgba(255, 255, 255, 0.05)",
+            pointerEvents: "none",
+          }}
+        />
+
+        {/* Content */}
+        <div
+          style={{
+            position: "relative",
+            padding: isMobile ? "32px 24px" : isTablet ? "40px 32px" : "48px 40px",
+            zIndex: 1,
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 12,
+              marginBottom: 24,
+            }}
+          >
+            <span
+              style={{
+                fontSize: 12,
+                fontWeight: 700,
+                color: "rgba(255, 255, 255, 0.95)",
+                letterSpacing: 1.5,
+                textTransform: "uppercase",
+                background: "rgba(255, 255, 255, 0.2)",
+                padding: "8px 14px",
+                borderRadius: 8,
+                backdropFilter: "blur(10px)",
+              }}
+            >
+              Featured
+            </span>
+            <span
+              style={{
+                fontSize: 13,
+                color: "rgba(255, 255, 255, 0.8)",
+                fontWeight: 500,
+              }}
+            >
+              {blog.readTime} read
+            </span>
+          </div>
+
+          <h3
+            style={{
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: isMobile ? "1.6rem" : isTablet ? "1.85rem" : "2.5rem",
+              fontWeight: 600,
+              color: "white",
+              lineHeight: 1.2,
+              letterSpacing: 1.5,
+              marginBottom: 18,
+              maxWidth: 750,
+            }}
+          >
+            {blog.title}
+          </h3>
+
+          <p
+            style={{
+              fontSize: isMobile ? 15 : 17,
+              color: "rgba(255, 255, 255, 0.9)",
+              lineHeight: 1.75,
+              marginBottom: 32,
+              maxWidth: 580,
+            }}
+          >
+            {blog.excerpt}
+          </p>
+
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 10,
+              background: "white",
+              color: color,
+              padding: "15px 28px",
+              borderRadius: 12,
+              fontSize: 15,
+              fontWeight: 700,
+              boxShadow: "0 8px 24px rgba(0, 0, 0, 0.15)",
+              transition: "all 0.3s ease",
+              transform: isHovered ? "translateX(4px)" : "none",
+            }}
+          >
+            Read Full Article
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </Link>
   );
 }
 
 export function BlogsSection() {
-  const [blogFilter, setBlogFilter] = useState("All");
   const { isMobile, isTablet } = useResponsive();
 
-  const filteredBlogs = BLOGS.filter(
-    (b) => blogFilter === "All" || b.category === blogFilter
-  );
+  // Show first 4 blogs from different categories for variety
+  const displayBlogs = [
+    BLOGS[0], // Ghost Charges
+    BLOGS[4], // Security Cascade
+    BLOGS[8], // Fronting Tax
+    BLOGS[12], // Zombie Tools
+  ];
 
-  // First blog as featured when showing all
-  const featuredBlog = blogFilter === "All" ? filteredBlogs[0] : null;
-  const gridBlogs = blogFilter === "All" ? filteredBlogs.slice(1, 9) : filteredBlogs.slice(0, 8);
+  const featuredBlog = BLOGS[0];
+  const gridBlogs = isMobile ? displayBlogs.slice(0, 3) : displayBlogs;
 
   return (
     <section
       id="section-blog"
       style={{
-        padding: isMobile ? "72px 5%" : isTablet ? "88px 5%" : "110px 5%",
-        background: "linear-gradient(180deg, var(--gray-50) 0%, var(--white) 50%, var(--gray-50) 100%)",
+        padding: isMobile ? "72px 5%" : isTablet ? "80px 5%" : "80px 5%",
+        background: "var(--white)",
         position: "relative",
         overflow: "hidden",
       }}
     >
-      {/* Background decorations */}
+      {/* Subtle background gradient */}
       <div
         style={{
           position: "absolute",
-          top: "5%",
-          right: "10%",
-          width: 400,
-          height: 400,
-          background: "radial-gradient(circle, var(--primary-glow) 0%, transparent 70%)",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "50%",
+          background: "linear-gradient(180deg, var(--gray-50) 0%, transparent 100%)",
           pointerEvents: "none",
-          opacity: 0.5,
         }}
       />
-
-      {/* Subtle pattern */}
-      <svg
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          opacity: 0.3,
-          pointerEvents: "none",
-        }}
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <defs>
-          <pattern id="blogDots" width="40" height="40" patternUnits="userSpaceOnUse">
-            <circle cx="2" cy="2" r="1" fill="var(--gray-300)" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#blogDots)" />
-      </svg>
 
       <div style={{ maxWidth: 1200, margin: "0 auto", position: "relative", zIndex: 2 }}>
         {/* Header */}
@@ -582,7 +351,7 @@ export function BlogsSection() {
           <div
             style={{
               textAlign: "center",
-              marginBottom: isMobile ? 36 : 56,
+              marginBottom: isMobile ? 40 : 56,
             }}
           >
             <div
@@ -590,11 +359,10 @@ export function BlogsSection() {
                 display: "inline-flex",
                 alignItems: "center",
                 gap: 8,
-                background: "var(--primary-glow)",
-                border: "1px solid rgba(73, 73, 242, 0.2)",
-                borderRadius: 100,
+                background: "linear-gradient(135deg, var(--primary) 0%, #6366f1 100%)",
+                borderRadius: 12,
                 padding: "8px 18px",
-                marginBottom: 18,
+                marginBottom: 20,
               }}
             >
               <svg
@@ -602,7 +370,7 @@ export function BlogsSection() {
                 height="16"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="var(--primary)"
+                stroke="white"
                 strokeWidth="2"
               >
                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
@@ -611,29 +379,28 @@ export function BlogsSection() {
               <span
                 style={{
                   fontSize: 12,
-                  letterSpacing: 2,
+                  letterSpacing: 1.5,
                   textTransform: "uppercase",
-                  color: "var(--primary)",
+                  color: "white",
                   fontWeight: 700,
                 }}
               >
-                The Vaultly Brief
+                Insights
               </span>
             </div>
 
             <h2
               style={{
                 fontFamily: "'Poppins', sans-serif",
-                fontSize: isMobile ? "1.75rem" : isTablet ? "2.2rem" : "clamp(2.2rem,3.5vw,3rem)",
-                fontWeight: 700,
-                letterSpacing: isMobile ? -0.5 : -1.5,
+                fontSize: isMobile ? "1.75rem" : isTablet ? "2.2rem" : "2.75rem",
+                fontWeight: 800,
+                letterSpacing: -1,
                 lineHeight: 1.15,
                 color: "var(--gray-900)",
                 marginBottom: 16,
               }}
             >
-              16 Problems. 4 Patterns.
-              <br />
+              The Problems{" "}
               <span
                 style={{
                   background: "linear-gradient(135deg, var(--primary), #a78bfa)",
@@ -642,7 +409,7 @@ export function BlogsSection() {
                   backgroundClip: "text",
                 }}
               >
-                Every One Costs Real Money.
+                Nobody Talks About
               </span>
             </h2>
 
@@ -651,78 +418,23 @@ export function BlogsSection() {
                 color: "var(--gray-600)",
                 fontSize: isMobile ? 15 : 17,
                 lineHeight: 1.7,
-                maxWidth: 600,
+                maxWidth: 550,
                 margin: "0 auto",
               }}
             >
-              Each of the four problems we're solving is bigger than it looks.
-              These articles break down the mechanics, the cost, and the fix.
+              Deep dives into the hidden costs draining your budget. Real numbers, real solutions.
             </p>
           </div>
         </Reveal>
 
-        {/* Filter tabs */}
-        <Reveal delay={0.08}>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              gap: isMobile ? 8 : 12,
-              flexWrap: "wrap",
-              marginBottom: isMobile ? 36 : 52,
-            }}
-          >
-            {FILTER_OPTIONS.map((f) => {
-              const active = blogFilter === f.label;
-              return (
-                <button
-                  key={f.label}
-                  onClick={() => setBlogFilter(f.label)}
-                  style={{
-                    padding: isMobile ? "10px 18px" : "12px 24px",
-                    borderRadius: 100,
-                    border: `2px solid ${active ? f.color : "var(--gray-200)"}`,
-                    background: active ? f.color : "var(--white)",
-                    color: active ? "white" : "var(--gray-600)",
-                    fontSize: isMobile ? 13 : 14,
-                    fontWeight: 600,
-                    cursor: "pointer",
-                    transition: "all 0.3s ease",
-                    whiteSpace: "nowrap",
-                    fontFamily: "'Inter', sans-serif",
-                    boxShadow: active ? `0 8px 20px ${f.color}30` : "0 2px 8px rgba(0, 0, 0, 0.04)",
-                  }}
-                  onMouseEnter={(e) => {
-                    if (!active) {
-                      e.currentTarget.style.borderColor = f.color;
-                      e.currentTarget.style.color = f.color;
-                      e.currentTarget.style.transform = "translateY(-2px)";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (!active) {
-                      e.currentTarget.style.borderColor = "var(--gray-200)";
-                      e.currentTarget.style.color = "var(--gray-600)";
-                      e.currentTarget.style.transform = "";
-                    }
-                  }}
-                >
-                  {f.label}
-                </button>
-              );
-            })}
-          </div>
-        </Reveal>
-
-        {/* Featured blog */}
-        {featuredBlog && !isMobile && (
-          <Reveal>
+        {/* Featured blog - Desktop only */}
+        {!isMobile && (
+          <Reveal delay={0.1}>
             <div style={{ marginBottom: 32 }}>
-              <BlogCard
+              <FeaturedCard
                 blog={featuredBlog}
                 isMobile={isMobile}
                 isTablet={isTablet}
-                isFeatured={true}
               />
             </div>
           </Reveal>
@@ -735,69 +447,65 @@ export function BlogsSection() {
             gridTemplateColumns: isMobile
               ? "1fr"
               : isTablet
-                ? "1fr 1fr"
+                ? "repeat(2, 1fr)"
                 : "repeat(4, 1fr)",
             gap: isMobile ? 20 : 24,
           }}
         >
           {gridBlogs.map((blog, i) => (
-            <Reveal key={blog.id} delay={i * 0.05}>
-              <BlogCard
+            <Reveal key={blog.id} delay={0.1 + i * 0.05}>
+              <ModernBlogCard
                 blog={blog}
                 isMobile={isMobile}
-                isTablet={isTablet}
               />
             </Reveal>
           ))}
         </div>
 
         {/* View all button */}
-        {filteredBlogs.length > 8 && (
-          <Reveal delay={0.3}>
-            <div style={{ textAlign: "center", marginTop: isMobile ? 36 : 52 }}>
-              <button
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 10,
-                  background: "var(--white)",
-                  color: "var(--gray-700)",
-                  border: "2px solid var(--gray-200)",
-                  padding: "14px 32px",
-                  borderRadius: 14,
-                  fontSize: 15,
-                  fontWeight: 600,
-                  cursor: "pointer",
-                  transition: "all 0.3s ease",
-                  fontFamily: "'Inter', sans-serif",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.borderColor = "var(--primary)";
-                  e.currentTarget.style.color = "var(--primary)";
-                  e.currentTarget.style.transform = "translateY(-2px)";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.borderColor = "var(--gray-200)";
-                  e.currentTarget.style.color = "var(--gray-700)";
-                  e.currentTarget.style.transform = "";
-                }}
+        <Reveal delay={0.3}>
+          <div style={{ textAlign: "center", marginTop: isMobile ? 36 : 52 }}>
+            <Link
+              to="/blog"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 10,
+                background: "linear-gradient(135deg, var(--gray-900) 0%, var(--gray-800) 100%)",
+                color: "white",
+                padding: "16px 32px",
+                borderRadius: 14,
+                fontSize: 15,
+                fontWeight: 600,
+                textDecoration: "none",
+                transition: "all 0.3s ease",
+                fontFamily: "'Inter', sans-serif",
+                boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = "translateY(-3px)";
+                e.currentTarget.style.boxShadow = "0 8px 30px rgba(0, 0, 0, 0.2)";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = "";
+                e.currentTarget.style.boxShadow = "0 4px 20px rgba(0, 0, 0, 0.15)";
+              }}
+            >
+              Explore All 16 Articles
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
               >
-                View All Articles
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <line x1="5" y1="12" x2="19" y2="12" />
-                  <polyline points="12 5 19 12 12 19" />
-                </svg>
-              </button>
-            </div>
-          </Reveal>
-        )}
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+            </Link>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

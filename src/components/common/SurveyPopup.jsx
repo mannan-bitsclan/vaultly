@@ -29,7 +29,7 @@ export function SurveyPopup({ onClose }) {
         style={{
           background: "var(--black)",
           border: "1px solid rgba(73, 73, 242, 0.2)",
-          borderRadius: 24,
+          borderRadius: 12,
           padding: isMobile ? "32px 24px 28px" : "44px 48px 40px",
           maxWidth: 500,
           width: "100%",
@@ -81,7 +81,7 @@ export function SurveyPopup({ onClose }) {
           style={{
             width: 56,
             height: 56,
-            borderRadius: 16,
+            borderRadius: 12,
             background: "var(--primary-glow)",
             border: "1px solid rgba(73, 73, 242, 0.3)",
             display: "flex",

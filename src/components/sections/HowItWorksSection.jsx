@@ -317,8 +317,8 @@ function StepCard({ step, index, isMobile, isTablet }) {
         background: "linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02))",
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
-        borderRadius: 24,
-        padding: isMobile ? "28px 22px" : "36px 36px",
+        borderRadius: 12,
+        padding: isMobile ? "28px 22px" : "74px 70px",
         border: `1px solid ${step.accent}20`,
         boxShadow: `0 20px 60px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255,255,255,0.05)`,
         display: "flex",
@@ -526,7 +526,7 @@ export function HowItWorksSection() {
     <section
       id="section-how"
       style={{
-        padding: isMobile ? "80px 5% 64px" : isTablet ? "100px 5% 80px" : "120px 5% 100px",
+        padding: isMobile ? "80px 5% 64px" : isTablet ? "80px 5% 80px" : "80px 5% 80px",
         background: "var(--black)",
         overflow: "hidden",
         position: "relative",
@@ -581,7 +581,7 @@ export function HowItWorksSection() {
                 gap: 10,
                 background: "var(--primary-glow)",
                 border: "1px solid rgba(73, 73, 242, 0.3)",
-                borderRadius: 100,
+                borderRadius: 12,
                 padding: "8px 20px",
                 marginBottom: 20,
               }}
@@ -590,7 +590,7 @@ export function HowItWorksSection() {
                 style={{
                   width: 8,
                   height: 8,
-                  borderRadius: "50%",
+                  borderRadius: 12,
                   background: "var(--primary)",
                   boxShadow: "0 0 10px var(--primary)",
                 }}

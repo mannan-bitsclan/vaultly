@@ -84,7 +84,7 @@ export function ProblemsSection() {
     <section
       id="section-problems"
       style={{
-        padding: isMobile ? "64px 5%" : isTablet ? "80px 5%" : "110px 5%",
+        padding: isMobile ? "64px 5%" : isTablet ? "80px 5%" : "80px 5%",
         background: "var(--gray-50)",
         position: "relative",
         overflow: "hidden",
