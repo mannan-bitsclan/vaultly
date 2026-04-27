@@ -354,40 +354,19 @@ export function BlogsSection() {
               marginBottom: isMobile ? 40 : 56,
             }}
           >
-            <div
+
+            <p
               style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 8,
-                background: "linear-gradient(135deg, var(--primary) 0%, #6366f1 100%)",
-                borderRadius: 12,
-                padding: "8px 18px",
-                marginBottom: 20,
+                fontSize: isMobile ? 11 : 13,
+                letterSpacing: 3,
+                textTransform: "uppercase",
+                color: "var(--primary)",
+                fontWeight: 700,
+                marginBottom: 16,
               }}
             >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="white"
-                strokeWidth="2"
-              >
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-              </svg>
-              <span
-                style={{
-                  fontSize: 12,
-                  letterSpacing: 1.5,
-                  textTransform: "uppercase",
-                  color: "white",
-                  fontWeight: 700,
-                }}
-              >
-                Insights
-              </span>
-            </div>
+              Our Insights
+            </p>
 
             <h2
               style={{

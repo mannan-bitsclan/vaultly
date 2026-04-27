@@ -574,39 +574,18 @@ export function HowItWorksSection() {
               marginBottom: isMobile ? 56 : 80,
             }}
           >
-            <div
+            <p
               style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 10,
-                background: "var(--primary-glow)",
-                border: "1px solid rgba(73, 73, 242, 0.3)",
-                borderRadius: 12,
-                padding: "8px 20px",
-                marginBottom: 20,
+                fontSize: isMobile ? 11 : 13,
+                letterSpacing: 3,
+                textTransform: "uppercase",
+                color: "var(--primary)",
+                fontWeight: 700,
+                marginBottom: 16,
               }}
             >
-              <div
-                style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: 12,
-                  background: "var(--primary)",
-                  boxShadow: "0 0 10px var(--primary)",
-                }}
-              />
-              <span
-                style={{
-                  fontSize: 12,
-                  letterSpacing: 2,
-                  textTransform: "uppercase",
-                  color: "var(--primary)",
-                  fontWeight: 700,
-                }}
-              >
-                How It Works
-              </span>
-            </div>
+              How It Works
+            </p>
 
             <h2
               style={{
@@ -811,7 +790,7 @@ export function HowItWorksSection() {
           })}
         </div>
 
-      
+
       </div>
 
       {/* CSS for animations */}
