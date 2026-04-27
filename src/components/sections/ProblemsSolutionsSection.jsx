@@ -557,7 +557,7 @@ export function ProblemsSolutionsSection() {
               }}
             >
               Four Problems.{" "}
-              <span style={{ color: "var(--primary)" }}>Four Smart Cards.</span>
+              <span style={{ color: "var(--primary)" }}>Four Smart Solutions.</span>
               <br />
               $4,200+ Saved Every Year.
             </h2>

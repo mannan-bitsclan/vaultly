@@ -6,7 +6,7 @@ export function SurveyPopup({ onClose }) {
   const handleClick = () => {
     sessionStorage.setItem("vaultly_survey_clicked", "1");
     onClose();
-    window.location.href = "https://tally.so/r/EkP7bN";
+    window.location.href = "https://api.leadconnectorhq.com/widget/survey/KhdizKHJ37fwYLrzWOyj";
   };
 
   return (
@@ -177,8 +177,10 @@ export function SurveyPopup({ onClose }) {
         </div>
 
         {/* CTA */}
-        <button
-          onClick={handleClick}
+        <a
+          // onClick={handleClick}
+          href="https://api.leadconnectorhq.com/widget/survey/KhdizKHJ37fwYLrzWOyj"
+          target="_blank"
           style={{
             display: "block",
             width: "100%",
@@ -204,7 +206,7 @@ export function SurveyPopup({ onClose }) {
           }}
         >
           Fill the Survey →
-        </button>
+        </a>
       </div>
     </div>
   );
