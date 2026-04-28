@@ -417,14 +417,14 @@ export function SetupCompleteCTA() {
           <Reveal>
             <div style={{ order: isMobile || isTablet ? 2 : 1 }}>
               {/* Badge */}
-              <div
+              {/* <div
                 style={{
                   display: "inline-flex",
                   alignItems: "center",
                   gap: 8,
                   background: "rgba(73, 73, 242, 0.15)",
                   border: "1px solid rgba(73, 73, 242, 0.3)",
-                  borderRadius: 100,
+                  borderRadius: 12,
                   padding: "8px 18px",
                   marginBottom: 24,
                   backdropFilter: "blur(10px)",
@@ -451,7 +451,20 @@ export function SetupCompleteCTA() {
                 >
                   Setup Complete
                 </span>
-              </div>
+              </div> */}
+
+            <p
+              style={{
+                fontSize: isMobile ? 11 : 13,
+                letterSpacing: 3,
+                textTransform: "uppercase",
+                color: "var(--primary)",
+                fontWeight: 700,
+                marginBottom: 16,
+              }}
+            >
+              Setup Complete
+            </p>
 
               {/* Heading */}
               <h2
