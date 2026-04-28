@@ -81,11 +81,11 @@ function ProblemCard({ problem, isMobile, isTablet }) {
         background: "var(--white)",
         border: "1px solid var(--gray-200)",
         borderRadius: 16,
-        padding: isMobile ? "32px 24px" : isTablet ? "40px 36px" : "52px 48px",
+        padding: isMobile ? "32px 24px" : isTablet ? "36px 32px" : "52px 48px",
         position: "relative",
         overflow: "hidden",
         height: "100%",
-        minHeight: isMobile ? "auto" : 380,
+        minHeight: isMobile ? "auto" : isTablet ? "auto" : 380,
         transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
         boxShadow: "0 4px 24px rgba(0, 0, 0, 0.06)",
       }}
@@ -241,11 +241,11 @@ function SolutionCard({ solution, isMobile, isTablet }) {
         background: `linear-gradient(135deg, ${BLUE_COLOR}08 0%, ${BLUE_COLOR}03 100%)`,
         border: `1px solid ${BLUE_COLOR}20`,
         borderRadius: 16,
-        padding: isMobile ? "32px 24px" : isTablet ? "40px 36px" : "52px 48px",
+        padding: isMobile ? "32px 24px" : isTablet ? "36px 32px" : "52px 48px",
         position: "relative",
         overflow: "hidden",
         height: "100%",
-        minHeight: isMobile ? "auto" : 380,
+        minHeight: isMobile ? "auto" : isTablet ? "auto" : 380,
         transition: "all 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
       }}
       onMouseEnter={(e) => {
@@ -488,7 +488,10 @@ function Arrow({ isMobile }) {
 }
 
 export function ProblemsSolutionsSection() {
-  const { isMobile, isTablet } = useResponsive();
+  const { isMobile, isTablet, width } = useResponsive();
+
+  // Use vertical layout for screens below 1100px (mobile + tablet + small screens)
+  const useVerticalLayout = width < 1100;
 
   return (
     <section
@@ -581,7 +584,7 @@ export function ProblemsSolutionsSection() {
           style={{
             display: "flex",
             flexDirection: "column",
-            gap: isMobile ? 32 : 56,
+            gap: isMobile ? 32 : useVerticalLayout ? 40 : 56,
           }}
         >
           {PROBLEMS_SOLUTIONS.map((item, i) => (
@@ -591,8 +594,8 @@ export function ProblemsSolutionsSection() {
                   position: "relative",
                 }}
               >
-                {isMobile ? (
-                  /* Mobile: Vertical layout */
+                {useVerticalLayout ? (
+                  /* Mobile/Tablet: Vertical layout */
                   <div
                     style={{
                       display: "flex",
@@ -604,7 +607,7 @@ export function ProblemsSolutionsSection() {
                       isMobile={isMobile}
                       isTablet={isTablet}
                     />
-                    <Arrow isMobile={isMobile} />
+                    <Arrow isMobile={useVerticalLayout} />
                     <SolutionCard
                       solution={item.solution}
                       isMobile={isMobile}
@@ -626,7 +629,7 @@ export function ProblemsSolutionsSection() {
                       isMobile={isMobile}
                       isTablet={isTablet}
                     />
-                    <Arrow isMobile={isMobile} />
+                    <Arrow isMobile={useVerticalLayout} />
                     <SolutionCard
                       solution={item.solution}
                       isMobile={isMobile}

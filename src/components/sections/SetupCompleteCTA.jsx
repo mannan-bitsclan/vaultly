@@ -474,7 +474,7 @@ export function SetupCompleteCTA() {
                     backgroundClip: "text",
                   }}
                 >
-                  $4200/year
+                  $8400/year
                 </span>
                 <br />
                 In Just 4 Steps

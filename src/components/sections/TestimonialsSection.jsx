@@ -882,37 +882,132 @@ export function TestimonialsSection() {
 
         {/* Bottom stats bar */}
         <Reveal delay={0.2}>
-          <div
-            style={{
-              marginTop: isMobile ? 40 : 56,
-              display: "grid",
-              gridTemplateColumns: isMobile ? "1fr" : "repeat(4, 1fr)",
-              gap: isMobile ? 16 : 0,
-              background: "var(--white)",
-              borderRadius: 12,
-              border: "1px solid var(--gray-200)",
-              overflow: "hidden",
-              boxShadow: "0 4px 24px rgba(0, 0, 0, 0.04)",
-            }}
-          >
-            {[
-              { value: "2,400+", label: "Happy Users", icon: "users" },
-              { value: "$4.2M", label: "Total Saved", icon: "dollar" },
-              { value: "99.9%", label: "Uptime", icon: "check" },
-              { value: "24/7", label: "Support", icon: "support" },
-            ].map((stat, idx) => (
-              <div
-                key={stat.label}
-                style={{
-                  padding: isMobile ? "20px 24px" : "28px 24px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 16,
-                  borderRight: !isMobile && idx < 3 ? "1px solid var(--gray-100)" : "none",
-                  borderBottom: isMobile && idx < 3 ? "1px solid var(--gray-100)" : "none",
-                  justifyContent: isMobile ? "flex-start" : "center",
-                }}
-              >
+          {isMobile ? (
+            /* Mobile: 2x2 grid with 4 separate boxes */
+            <div
+              style={{
+                marginTop: 40,
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 12,
+              }}
+            >
+              {[
+                { value: "2,400+", label: "Happy Users", icon: "users" },
+                { value: "$4.2M", label: "Total Saved", icon: "dollar" },
+                { value: "99.9%", label: "Uptime", icon: "check" },
+                { value: "24/7", label: "Support", icon: "support" },
+              ].map((stat) => (
+                <div
+                  key={stat.label}
+                  style={{
+                    background: "var(--white)",
+                    borderRadius: 12,
+                    border: "1px solid var(--gray-200)",
+                    padding: "20px 16px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    textAlign: "center",
+                    gap: 12,
+                    boxShadow: "0 4px 24px rgba(0, 0, 0, 0.04)",
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 44,
+                      height: 44,
+                      borderRadius: 12,
+                      background: "linear-gradient(135deg, rgba(73, 73, 242, 0.1), rgba(139, 92, 246, 0.1))",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}
+                  >
+                    {stat.icon === "users" && (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4949f2" strokeWidth="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                      </svg>
+                    )}
+                    {stat.icon === "dollar" && (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4949f2" strokeWidth="2">
+                        <line x1="12" y1="1" x2="12" y2="23" />
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                      </svg>
+                    )}
+                    {stat.icon === "check" && (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4949f2" strokeWidth="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
+                      </svg>
+                    )}
+                    {stat.icon === "support" && (
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4949f2" strokeWidth="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                      </svg>
+                    )}
+                  </div>
+                  <div>
+                    <div
+                      style={{
+                        fontFamily: "'Poppins', sans-serif",
+                        fontSize: "1.25rem",
+                        fontWeight: 700,
+                        color: "var(--gray-900)",
+                        lineHeight: 1,
+                      }}
+                    >
+                      {stat.value}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 13,
+                        color: "var(--gray-500)",
+                        marginTop: 4,
+                      }}
+                    >
+                      {stat.label}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            /* Desktop/Tablet: Single box with 4 columns */
+            <div
+              style={{
+                marginTop: 56,
+                display: "grid",
+                gridTemplateColumns: "repeat(4, 1fr)",
+                gap: 0,
+                background: "var(--white)",
+                borderRadius: 12,
+                border: "1px solid var(--gray-200)",
+                overflow: "hidden",
+                boxShadow: "0 4px 24px rgba(0, 0, 0, 0.04)",
+              }}
+            >
+              {[
+                { value: "2,400+", label: "Happy Users", icon: "users" },
+                { value: "$4.2M", label: "Total Saved", icon: "dollar" },
+                { value: "99.9%", label: "Uptime", icon: "check" },
+                { value: "24/7", label: "Support", icon: "support" },
+              ].map((stat, idx) => (
+                <div
+                  key={stat.label}
+                  style={{
+                    padding: "28px 24px",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 16,
+                    borderRight: idx < 3 ? "1px solid var(--gray-100)" : "none",
+                    justifyContent: "center",
+                  }}
+                >
                 <div
                   style={{
                     width: 44,
@@ -955,7 +1050,7 @@ export function TestimonialsSection() {
                   <div
                     style={{
                       fontFamily: "'Poppins', sans-serif",
-                      fontSize: isMobile ? "1.25rem" : "1.5rem",
+                      fontSize: "1.5rem",
                       fontWeight: 700,
                       color: "var(--gray-900)",
                       lineHeight: 1,
@@ -975,7 +1070,8 @@ export function TestimonialsSection() {
                 </div>
               </div>
             ))}
-          </div>
+            </div>
+          )}
         </Reveal>
       </div>
     </section>
