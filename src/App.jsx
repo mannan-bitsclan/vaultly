@@ -1,8 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { LandingPage } from "./pages";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import BlogsPage from "./pages/BlogsPage";
-import BlogDetailPage from "./pages/BlogDetailPage";
+import { LandingPage, PrivacyPolicy, BlogsPage, BlogDetailPage } from "./pages";
 
 function App() {
   return (
@@ -11,7 +8,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/privacy" element={<PrivacyPolicy />} />
         <Route path="/blog" element={<BlogsPage />} />
-        <Route path="/blog/:slug" element={<BlogDetailPage />} />
+        <Route path="/blog/:category/:slug" element={<BlogDetailPage />} />
       </Routes>
     </BrowserRouter>
   );

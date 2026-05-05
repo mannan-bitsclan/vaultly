@@ -1,0 +1,29 @@
+.hamburger {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 4px;
+  z-index: 210;
+  gap: 5px;
+}
+
+.hamburger__bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--gray-900);
+  border-radius: 2px;
+  transition: all 0.3s;
+}
+
+.hamburger__bar--top.hamburger__bar--open {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger__bar--middle.hamburger__bar--open {
+  opacity: 0;
+}
+
+.hamburger__bar--bottom.hamburger__bar--open {
+  transform: rotate(-45deg) translate(5px, -5px);
+}

@@ -1,0 +1,9 @@
+.landing-page {
+  background: var(--white);
+  min-height: 100vh;
+}
+
+.landing-page__ticker-wrapper {
+  border-top: 1px solid var(--gray-100);
+  border-bottom: 1px solid var(--gray-100);
+}

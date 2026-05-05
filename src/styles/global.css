@@ -525,3 +525,30 @@ button {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
+
+.highlighted-text{
+  background: var(--primary);
+  color: #ffffff;
+  padding: 0 10px;
+}
+
+.problem-badge-card-box{
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Text gradient utility */
+.text-gradient-primary {
+  background: linear-gradient(135deg, var(--primary), #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Primary color text */
+.text-primary {
+  color: var(--primary) !important;
+}

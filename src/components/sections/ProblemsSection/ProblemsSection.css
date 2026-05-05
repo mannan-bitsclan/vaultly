@@ -1,0 +1,212 @@
+.problems-section {
+  background: var(--gray-50);
+  position: relative;
+  overflow: hidden;
+}
+
+.problems-section--mobile {
+  padding: 64px 5%;
+}
+
+.problems-section--tablet {
+  padding: 80px 5%;
+}
+
+.problems-section--desktop {
+  padding: 80px 5%;
+}
+
+.problems-section__container {
+  max-width: 1200px;
+  position: relative;
+  z-index: 2;
+}
+
+.problems-section__header {
+  margin-bottom: 64px;
+}
+
+.problems-section__header--mobile {
+  margin-bottom: 40px;
+}
+
+.problems-section__eyebrow {
+  font-size: 15px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.problems-section__eyebrow--mobile {
+  font-size: 13px;
+}
+
+.problems-section__title {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(2rem, 3.4vw, 2.8rem);
+  font-weight: 700;
+  color: var(--gray-900);
+  line-height: 1.15;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.problems-section__title--mobile {
+  font-size: 1.65rem;
+  letter-spacing: -0.5px;
+}
+
+.problems-section__title--tablet {
+  font-size: 2.2rem;
+}
+
+.problems-section__subtitle {
+  color: var(--gray-600);
+  font-size: 17px;
+  line-height: 1.7;
+  max-width: 640px;
+  margin: 14px auto 0;
+}
+
+.problems-section__subtitle--mobile {
+  font-size: 15px;
+}
+
+/* Grid */
+.problems-section__grid {
+  display: grid;
+  gap: 20px;
+}
+
+.problems-section__grid--mobile {
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.problems-section__grid--desktop {
+  grid-template-columns: 1fr 1fr;
+}
+
+/* Problem Card */
+.problem-card {
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+}
+
+.problem-card--mobile {
+  padding: 24px 16px;
+}
+
+.problem-card--tablet {
+  padding: 28px 22px;
+}
+
+.problem-card--desktop {
+  padding: 32px 26px;
+}
+
+.problem-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 50px rgba(0, 0, 0, 0.08);
+}
+
+.problem-card__bg-letter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Poppins', sans-serif;
+  font-size: 140px;
+  font-weight: 900;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+}
+
+.problem-card__bg-letter--mobile {
+  font-size: 70px;
+}
+
+.problem-card__label {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.problem-card__label--mobile {
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+}
+
+.problem-card__title {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(1.2rem, 2vw, 1.55rem);
+  font-weight: 700;
+  font-style: italic;
+  color: var(--gray-900);
+  margin-bottom: 14px;
+  letter-spacing: -0.5px;
+  line-height: 1.3;
+  position: relative;
+}
+
+.problem-card__title--mobile {
+  font-size: 1.2rem;
+}
+
+.problem-card__stat-wrapper {
+  gap: 10px;
+  margin-bottom: 14px;
+  position: relative;
+}
+
+.problem-card__stat {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(2rem, 3vw, 2.4rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.problem-card__stat--mobile {
+  font-size: 1.8rem;
+}
+
+.problem-card__stat-desc {
+  font-size: 11px;
+  color: var(--gray-500);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  max-width: 90px;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.problem-card__stat-desc--mobile {
+  font-size: 10px;
+}
+
+.problem-card__body {
+  color: var(--gray-600);
+  font-size: 14px;
+  line-height: 1.75;
+  max-width: 400px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.problem-card__body--mobile {
+  font-size: 13px;
+}
